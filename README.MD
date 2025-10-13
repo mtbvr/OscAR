@@ -51,9 +51,15 @@ Les services seront accessibles aux adresses suivantes :
 2. Dans le dossier de l’application mobile :
 
 ```bash
-cd react-native
+cd frontendMobile
 npm install
 npx react-native run-android
+```
+
+En cas de probleme, il est possible de débug l'état de l'environnement afin de détecter le manquement d'un prérequis avec:
+
+```bash
+npx react-native doctor
 ```
 
 ---
