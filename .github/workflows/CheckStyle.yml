@@ -28,7 +28,11 @@ jobs:
       - name: Install dependencies (frontend-desktop)
         run: |
           cd frontend-desktop
-          npm ci
+          if [ -f package-lock.json ] ; then
+            npm ci
+          else
+            npm install
+          fi
 
       - name: ESLint frontend-desktop
         run: |
@@ -38,7 +42,11 @@ jobs:
       - name: Install dependencies (frontendMobile)
         run: |
           cd frontendMobile
-          npm ci
+          if [ -f package-lock.json ] ; then
+            npm ci
+          else
+            npm install
+          fi
 
       - name: ESLint frontendMobile
         run: |
@@ -48,7 +56,11 @@ jobs:
       - name: Install dependencies (backend)
         run: |
           cd backend
-          npm ci
+          if [ -f package-lock.json ] ; then
+            npm ci
+          else
+            npm install
+          fi
 
       - name: ESLint backend
         run: |
