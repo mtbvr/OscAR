@@ -52,7 +52,8 @@ jobs:
             curl -X POST "https://production-api.railway.app/v1/services/${RAILWAY_SERVICE_ID}/deploys" \
             -H "Authorization: Bearer $RAILWAY_TOKEN" \
             -H "Content-Type: application/json" \
-            -d '{"image":"ghcr.io/'${{ github.repository_owner }}'/osc_backend:sha-'${GITHUB_SHA}'"}'
+            -d "{\"image\":\"ghcr.io/${{ github.repository_owner }}/osc_backend:sha-${GITHUB_SHA}\"}"
+            pository_owner }}'/osc_backend:sha-'${GITHUB_SHA}'"}'
 
       - name: Frontend URL reminder
         run: |

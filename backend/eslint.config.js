@@ -4,22 +4,22 @@ import pluginReact from "eslint-plugin-react";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
+  js.configs.recommended, // base ESLint recommended rules
   {
-  "env": {
-    "browser": false,
-    "node": true,
-    "es2021": true
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.es2021,
+      },
+      ecmaVersion: "latest",
+      sourceType: "module",
+    },
+    plugins: {
+      react: pluginReact, // plugin importé et nommé
+    },
+    rules: {
+      // tes règles personnalisées ici
+    },
   },
-  "extends": ["eslint:recommended"],
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
-  "plugins": ["react"],
-  "rules": {}
- }
-,
-  pluginReact.configs.flat.recommended,
+  pluginReact.configs.flat.recommended, // config recommandée du plugin React
 ]);
-
-
