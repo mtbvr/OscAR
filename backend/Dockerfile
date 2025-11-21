@@ -12,7 +12,7 @@ COPY package*.json ./
 
 # Installer les dépendances de production uniquement
 RUN if [ -f package-lock.json ]; then \
-      RUN npm install --omit=dev --no-audit --no-fund; \
+      npm install --omit=dev --no-audit --no-fund; \
     else \
       npm install --omit=dev --no-audit --no-fund; \
     fi
