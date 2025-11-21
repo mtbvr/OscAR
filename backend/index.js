@@ -9,7 +9,7 @@ app.use(cors({
 }));
 
 app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello frosdme backend!' });
+  res.json({ message: 'Hellod frosdme backend!' });
 });
 
 // Utiliser le port fourni par Railway
