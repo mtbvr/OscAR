@@ -1,4 +1,4 @@
-name: Build and Publish backend Docker image (for Railway)
+name: Build, Push and Deploy backend Docker image (Railway)
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
   packages: write
 
 jobs:
-  build-and-push:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -31,7 +31,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker image (backend)
+      - name: Build Docker image
         run: |
           docker build \
             -t ghcr.io/${{ github.repository_owner }}/osc_backend:latest \
@@ -43,13 +43,20 @@ jobs:
           docker push ghcr.io/${{ github.repository_owner }}/osc_backend:latest
           docker push ghcr.io/${{ github.repository_owner }}/osc_backend:sha-${{ github.sha }}
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
-      - name: Deploy via Railway
+      - name: Deploy to Railway
         env:
-            RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-            RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
-        run: railway up --service=$RAILWAY_SERVICE_ID -d
-
-
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          RAILWAY_ENVIRONMENT_ID: ${{ secrets.RAILWAY_ENVIRONMENT_ID }}
+        run: |
+          railway link --service=$RAILWAY_SERVICE_ID --project-id=$RAILWAY_PROJECT_ID --environment=$RAILWAY_ENVIRONMENT_ID
+          railway redeploy --yes
