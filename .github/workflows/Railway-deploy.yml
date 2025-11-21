@@ -43,17 +43,11 @@ jobs:
           docker push ghcr.io/${{ github.repository_owner }}/osc_backend:latest
           docker push ghcr.io/${{ github.repository_owner }}/osc_backend:sha-${{ github.sha }}
 
-      - name: Redeploy Railway Container via API
-        env:
-            RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-            RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
-            GITHUB_SHA: ${{ github.sha }}
-        run: |
-            curl -X POST "https://production-api.railway.app/v1/services/${RAILWAY_SERVICE_ID}/deploys" \
-            -H "Authorization: Bearer $RAILWAY_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "{\"image\":\"ghcr.io/${{ github.repository_owner }}/osc_backend:sha-${GITHUB_SHA}\"}"
-            pository_owner }}'/osc_backend:sha-'${GITHUB_SHA}'"}'
+      - name: Install Railway CLI
+        run: curl -fsSL https://railway.app/install.sh | sh
+
+      - name: Trigger Railway Deploy
+        run: railway up --service $RAILWAY_SERVICE_ID --token $RAILWAY_TOKEN
 
       - name: Frontend URL reminder
         run: |
