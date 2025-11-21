@@ -56,5 +56,4 @@ jobs:
             -d "{\"image\":\"ghcr.io/${REPO_OWNER}/osc_backend:sha-${GITHUB_SHA}\"}"
 
       - name: Frontend URL reminder
-        run: | 
-            echo "Frontend is served at: https://oscar-deploiement.vercel.app/"
+        run: echo "Frontend is served at: https://oscar-deploiement.vercel.app/"
