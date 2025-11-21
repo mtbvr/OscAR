@@ -1,27 +1,27 @@
-# Utiliser une image Node.js officielle légère
+# Utilise Node 22 Alpine
 FROM node:22-alpine
 
-# Définir le répertoire de travail
-WORKDIR /app
-
-# Mettre en production
+# Mode production
 ENV NODE_ENV=production
 
-# Copier uniquement les fichiers nécessaires pour installer les dépendances
+# Dossier de travail
+WORKDIR /app
+
+# Copier package.json et package-lock.json
 COPY package*.json ./
 
-# Installer les dépendances de production uniquement
+# Installer les dépendances de production
 RUN if [ -f package-lock.json ]; then \
-      npm ci --only=production; \
+      npm ci --omit=dev --no-audit --no-fund; \
     else \
       npm install --omit=dev --no-audit --no-fund; \
     fi
 
-# Copier le reste des fichiers de l'application
+# Copier le reste du code
 COPY . .
 
-# Exposer le port sur lequel l'application écoute
+# Exposer le port dynamique de Railway
 EXPOSE 5000
 
-# Lancer l'application
+# Commande pour démarrer
 CMD ["node", "index.js"]
