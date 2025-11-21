@@ -43,19 +43,18 @@ jobs:
           docker push ghcr.io/${{ github.repository_owner }}/osc_backend:latest
           docker push ghcr.io/${{ github.repository_owner }}/osc_backend:sha-${{ github.sha }}
 
-      - name: Install Railway CLI
-        run: curl -fsSL https://railway.app/install.sh | sh
-
-      - name: Trigger Railway Deploy
+      - name: Trigger Railway Deploy via API
         env:
-          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+          GITHUB_SHA: ${{ github.sha }}
+          REPO_OWNER: ${{ github.repository_owner }}
         run: |
-            mkdir -p ~/.railway
-            echo "$RAILWAY_TOKEN" > ~/.railway/token
-
-            railway up --service $"RAILWAY_SERVICE_ID"
+          curl -X POST "https://production-api.railway.app/v1/services/${RAILWAY_SERVICE_ID}/deploys" \
+            -H "Authorization: Bearer $RAILWAY_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"image\":\"ghcr.io/${REPO_OWNER}/osc_backend:sha-${GITHUB_SHA}\"}"
 
       - name: Frontend URL reminder
-        run: |
-          echo "Frontend is served at: https://oscar-deploiement.vercel.app/"
+        run: | 
+            echo "Frontend is served at: https://oscar-deploiement.vercel.app/"
