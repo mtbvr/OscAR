@@ -43,21 +43,6 @@ jobs:
           docker push ghcr.io/${{ github.repository_owner }}/osc_backend:latest
           docker push ghcr.io/${{ github.repository_owner }}/osc_backend:sha-${{ github.sha }}
 
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli && railway --version
-
-      - name: Link and Deploy to Railway
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-        run: |
-          # Configure Railway token pour CI
-          mkdir -p ~/.railway
-          echo "$RAILWAY_TOKEN" > ~/.railway/token
-
-          # Déployer le service Container (lié au projet)
-          railway up
-
       - name: Frontend URL reminder
         run: |
           echo "Frontend is served at: https://oscar-deploiement.vercel.app/"
