@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Julien la petite peste</h1>
+      <h1>Stellaris la poufiasse</h1>
       <p>{message}</p>
     </div>
   );
