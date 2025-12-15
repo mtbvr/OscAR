@@ -1,10 +1,19 @@
-import http from 'http';
+import express from 'express';
+import cors from 'cors';
 
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hello from pure Node.js backend');
+const app = express();
+
+// Autoriser le front Vercel
+app.use(cors({
+  origin: 'https://oscar-deploiement.vercel.app'
+}));
+
+app.get('/api/hello', (req, res) => {
+  res.json({ message: 'Salut du backend' });
 });
 
-server.listen(5000, '0.0.0.0', () => {
-  console.log('Server running on http://localhost:5000');
+// Utiliser le port fourni par Railway
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+  console.log(`Backend listening on port ${port}`);
 });
