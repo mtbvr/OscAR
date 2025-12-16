@@ -1,27 +1,26 @@
-# Utiliser une image Node.js officielle légère
-FROM node:22-alpine
+# ---------- BUILD STAGE ----------
+FROM node:22-alpine AS builder
 
-# Définir le répertoire de travail
 WORKDIR /app
 
-# Mettre en production
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+
+# ---------- RUNTIME STAGE ----------
+FROM node:22-alpine
+
+WORKDIR /app
 ENV NODE_ENV=production
 
-# Copier uniquement les fichiers nécessaires pour installer les dépendances
-COPY package*.json ./
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package*.json ./
 
-# Installer les dépendances de production uniquement
-RUN if [ -f package-lock.json ]; then \
-      npm install --omit=dev --no-audit --no-fund; \
-    else \
-      npm install --omit=dev --no-audit --no-fund; \
-    fi
+RUN npm ci --omit=dev
 
-# Copier le reste des fichiers de l'application
-COPY . .
-
-# Exposer le port sur lequel l'application écoute
 EXPOSE 5000
 
-# Lancer l'application
-CMD ["node", "index.js"]
+CMD ["node", "dist/app/server.js"]

@@ -2,10 +2,12 @@
   "name": "osc_backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "/src/app/server.ts",
   "scripts": {
-    "start": "node index.js",
-    "lint": "eslint . --ext .js,.mjs"
+    "build": "tsc",
+    "start": "node dist/app/server.js",
+    "lint": "eslint . --ext .js,.mjs",
+    "dev": "nodemon --legacy-watch --exec node --loader ts-node/esm src/app/server.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -14,8 +16,15 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.0.0",
     "eslint": "^9.39.1",
     "eslint-plugin-react": "^7.37.5",
-    "globals": "^16.5.0"
+    "globals": "^16.5.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.2",
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2"
   }
 }
