@@ -15,9 +15,6 @@ RUN if [ -f package-lock.json ]; then \
 
 COPY . .
 
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package*.json ./
-
 RUN npm ci --omit=dev
 
 EXPOSE 5000
