@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
+import { fetchHello } from '../api/apiClient';
 
 export default function Home() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/hello`) //https://oscbackend-production.up.railway.app
-      .then(res => res.json())
-      .then(data => setMessage(data.message, "coucou"))
+    fetchHello()
+      .then(data => setMessage(data.message))
       .catch(err => setMessage('Error: ' + err.message));
   }, []);
 
   return (
     <div>
-      <h1>Stellaris la doui</h1>
+      <h1>Stellaris la petasse</h1>
       <p>{message}</p>
     </div>
   );
