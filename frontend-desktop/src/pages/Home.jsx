@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchHello } from '../api/apiClient';
+import { fetchHello } from '../api/services/hello.api';
 
 export default function Home() {
   const [message, setMessage] = useState('');
