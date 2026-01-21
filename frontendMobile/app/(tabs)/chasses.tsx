@@ -1,25 +1,26 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import HHeaderNavbar from '../../components/ui/header-navbar';
+import HeaderNavbar from '@/components/ui/header-navbar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-/* Default screen for the Maps tab */
+/* Default screen for the Hunt tab */
 
-const IndexScreen = () => {
+export default function ChassesScreen() {
     return (
         <SafeAreaView style={styles.container}>
-                <HHeaderNavbar />
-                <View style={styles.content}>
-                    <Text>Maps</Text>
-                    <Text>Carte et exploration à venir.</Text>
-                </View>
+            <HeaderNavbar />
+            <View style={styles.content}>
+                <Text>Chasses</Text>
+                <Text>Contenu des chasses à venir.</Text>
+            </View>
         </SafeAreaView>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: 'center',
         backgroundColor: '#FEFEFE',
     },
     content: {
@@ -29,5 +30,3 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
     },
 });
-
-export default IndexScreen;
