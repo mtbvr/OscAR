@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
-/* Profil screen */
+// Profil screen
 
 export default function ProfilScreen() {
   const router = useRouter();

@@ -6,9 +6,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from 'expo-asset';
 
-// Inscription screen 
+// Connection screen 
 
-export default function InscriptionScreen() {
+export default function ConnexionScreen() {
     const router = useRouter();
 
     // Get URI from icon module
@@ -18,92 +18,59 @@ export default function InscriptionScreen() {
 
     return (
       <View style={{flex: 1}}>
-          <LinearGradient colors={['#F72C25', '#F7B32B']} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={{flex: 1, paddingVertical: 60, paddingHorizontal: 30, alignItems: 'center'}}>
+          <LinearGradient colors={['#F72C25', '#F7B32B']} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={{flex: 1, paddingVertical: 125, paddingHorizontal: 30, alignItems: 'center'}}>
             <View style={styles.container}>
                 <Text style={styles.title}>LOOTOPIA</Text>
                 <Text style={styles.subtitle}>La chasse vous attend !</Text>
                 
-                {/* Input Pseudo */}
-                <View>
-                    <Text style={styles.inputTexte}>Pseudo</Text>
-                    <View style={styles.inputContainer}>
-                            <SvgUri
-                                uri={getIconUri(require('../assets/icon/user.svg'))}
-                                width={20}
-                                height={20}
-                                style={styles.inputIcon}
-                                color={'#cdcdcdff'}
-                            />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="JeanDupont"
-                                placeholderTextColor="#A9A9A9"
-                                keyboardType="default"
-                            />
-                        </View>
-                </View>
-
                 {/* Input Email */}
                 <View>
-                    <Text style={styles.inputTexte}>Email</Text>
-                    <View style={styles.inputContainer}>
-                            <SvgUri
-                                uri={getIconUri(require('../assets/icon/mail.svg'))}
-                                width={20}
-                                height={20}
-                                style={styles.inputIcon}
-                                color={'#cdcdcdff'}
-                            />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Email"
-                                placeholderTextColor="#A9A9A9"
-                                keyboardType="email-address"
-                            />
-                        </View>
+                  <Text style={styles.inputTexte}>Email</Text>
+                  <View style={styles.inputContainer}>
+                      <SvgUri
+                          uri={getIconUri(require('../assets/icon/mail.svg'))}
+                          width={20}
+                          height={20}
+                          style={styles.inputIcon}
+                          color={'#cdcdcdff'}
+                      />
+                      <TextInput
+                          style={styles.input}
+                          placeholder="votre@email.com"
+                          placeholderTextColor="#A9A9A9"
+                          keyboardType="email-address"
+                      />
+                  </View>
                 </View>
 
                 {/* Input Password */}
                 <View>
-                    <Text style={styles.inputTexte}>Mot de passe</Text>
-                    <View style={styles.inputContainer_mdp}>
-                        <SvgUri
-                            uri={getIconUri(require('../assets/icon/lock.svg'))}
-                            width={20}
-                            height={20}
-                            style={styles.inputIcon}
-                            color={'#cdcdcdff'}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="************"
-                            placeholderTextColor="#A9A9A9"
-                            secureTextEntry
-                        />
+                  <Text style={styles.inputTexte}>Mot de passe</Text>
+                  <View style={styles.inputContainer_mdp}>
+                      <SvgUri
+                          uri={getIconUri(require('../assets/icon/lock.svg'))}
+                          width={20}
+                          height={20}
+                          style={styles.inputIcon}
+                          color={'#cdcdcdff'}
+                      />
+                      <TextInput
+                          style={styles.input}
+                          placeholder="************"
+                          placeholderTextColor="#A9A9A9"
+                          secureTextEntry
+                      />
+                  </View>
+
+                    {/* Link "Forgot Password?" */}
+                    <View style={{width: '100%'}}>
+                    <TouchableOpacity onPress={() => router.push('/forgot-password')} activeOpacity={0.7}>
+                        <Text style={styles.forgotPassword}>Mot de passe oublié ?</Text>
+                    </TouchableOpacity>
                     </View>
                 </View>
 
-                {/* Input Confirm Password */}
-                <View>
-                    <Text style={styles.inputTexte}>Confirmez le mot de passe</Text>
-                    <View style={styles.inputContainer_mdp}>
-                        <SvgUri
-                            uri={getIconUri(require('../assets/icon/lock.svg'))}
-                            width={20}
-                            height={20}
-                            style={styles.inputIcon}
-                            color={'#cdcdcdff'}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            placeholder="************"
-                            placeholderTextColor="#A9A9A9"
-                            secureTextEntry
-                        />
-                    </View>
-                </View>
-
-                {/* Registration Button */}
+                {/* Button "Sign In" */}
                 <TouchableOpacity style={styles.buttonContainer}>
                     <LinearGradient
                         colors={['#F72C25', '#F7B32B']}
@@ -111,18 +78,18 @@ export default function InscriptionScreen() {
                         end={{ x: 1, y: 0 }}
                         style={styles.buttonGradient}
                     >
-                        <Text style={styles.buttonText}>S'inscrire</Text>
+                        <Text style={styles.buttonText}>Se connecter</Text>
                     </LinearGradient>
                 </TouchableOpacity>
 
-                {/* Link "Sign In" */}
+                {/* Link "Sign Up" */}
                 <View style={styles.signupContainer}>
                     <View>
-                        <Text style={styles.signupText}>Vous avez déjà un compte ?</Text>
+                        <Text style={styles.signupText}>Vous n'avez pas encore de compte ?</Text>
                     </View>
                     
-                    <TouchableOpacity onPress={() => router.push('/connection')} activeOpacity={0.7}>
-                        <Text style={styles.signupLink}>Connectez vous !</Text>
+                    <TouchableOpacity onPress={() => router.push('/inscription')} activeOpacity={0.7}>
+                        <Text style={styles.signupLink}>Inscrivez-vous !</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -151,6 +118,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
+        paddingVertical: 12,
         gap: 8,
     },
     backText: {

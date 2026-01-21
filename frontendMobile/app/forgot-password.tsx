@@ -1,24 +1,62 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from 'expo-asset';
+import axios from 'axios';
+import { Ionicons } from '@expo/vector-icons';
 
-/* Connection screen */
+// Forgot Password screen 
 
-export default function ConnexionScreen() {
+export default function ForgotPasswordScreen() {
     const router = useRouter();
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
 
     // Get URI from icon module
     function getIconUri(iconSource: number): string {
         return Asset.fromModule(iconSource).uri || '';
     }
 
+    const handleReset = async () => {
+        if (!email) {
+            alert('Veuillez entrer une adresse email valide.');
+            return;
+        }
+
+        const code = Math.floor(100000 + Math.random() * 900000); // Génère un code à 6 chiffres
+
+        try {
+            const response = await fetch('http://localhost:5000/api/password-reset', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Échec de l\'envoi de l\'email');
+            }
+
+            const data = await response.json();
+            setMessage(data.message);
+            setError('');
+            router.push('/forgot-password-send');
+        } catch (err: any) {
+            setError(err.message);
+            setMessage('');
+            console.error('Erreur lors de l\'envoi de l\'email :', err);
+            alert('Une erreur est survenue lors de l\'envoi de l\'email.');
+        }
+    };
+
     return (
       <View style={{flex: 1}}>
-          <LinearGradient colors={['#F72C25', '#F7B32B']} start={{ x: -0.25, y: 0 }} end={{ x: 1, y: 0 }} style={{flex: 1, paddingVertical: 125, paddingHorizontal: 30, alignItems: 'center'}}>
+          <LinearGradient colors={['#F72C25', '#F7B32B']} start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} style={{flex: 1, paddingVertical: 215, paddingHorizontal: 30, alignItems: 'center'}}>
             <View style={styles.container}>
                 <Text style={styles.title}>LOOTOPIA</Text>
                 <Text style={styles.subtitle}>La chasse vous attend !</Text>
@@ -39,64 +77,32 @@ export default function ConnexionScreen() {
                           placeholder="votre@email.com"
                           placeholderTextColor="#A9A9A9"
                           keyboardType="email-address"
+                          value={email}
+                          onChangeText={setEmail}
                       />
                   </View>
                 </View>
 
-                {/* Input Password */}
-                <View>
-                  <Text style={styles.inputTexte}>Mot de passe</Text>
-                  <View style={styles.inputContainer_mdp}>
-                      <SvgUri
-                          uri={getIconUri(require('../assets/icon/lock.svg'))}
-                          width={20}
-                          height={20}
-                          style={styles.inputIcon}
-                          color={'#cdcdcdff'}
-                      />
-                      <TextInput
-                          style={styles.input}
-                          placeholder="************"
-                          placeholderTextColor="#A9A9A9"
-                          secureTextEntry
-                      />
-                  </View>
-
-                    {/* Link "Forgot Password?" */}
-                    <View style={{width: '100%'}}>
-                    <TouchableOpacity onPress={() => router.push('/')} activeOpacity={0.7}>
-                        <Text style={styles.forgotPassword}>Mot de passe oublié ?</Text>
-                    </TouchableOpacity>
-                    </View>
-                </View>
-
-                {/* Button "Sign In" */}
-                <TouchableOpacity style={styles.buttonContainer}>
+                {/* Button "Réinitialiser" */}
+                <TouchableOpacity style={styles.buttonContainer} onPress={handleReset}>
                     <LinearGradient
                         colors={['#F72C25', '#F7B32B']}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 1, y: 0 }}
                         style={styles.buttonGradient}
                     >
-                        <Text style={styles.buttonText}>Se connecter</Text>
+                        <Text style={styles.buttonText}>Réinitialiser</Text>
                     </LinearGradient>
                 </TouchableOpacity>
 
-                {/* Link "Sign Up" */}
-                <View style={styles.signupContainer}>
-                    <View>
-                        <Text style={styles.signupText}>Vous n'avez pas encore de compte ?</Text>
-                    </View>
-                    
-                    <TouchableOpacity onPress={() => router.push('/inscription')} activeOpacity={0.7}>
-                        <Text style={styles.signupLink}>Inscrivez-vous !</Text>
-                    </TouchableOpacity>
-                </View>
+                {/* Message Success/Error */}
+                {message ? <Text style={styles.success}>{message}</Text> : null}
+                {error ? <Text style={styles.error}>{error}</Text> : null}
 
                 {/* Back Button */}
-                <TouchableOpacity style={styles.backButton} onPress={() => router.push('/')} activeOpacity={0.7}>
+                <TouchableOpacity style={styles.backButton} onPress={() => router.push('/connection')} activeOpacity={0.7}>
                       <Ionicons name="arrow-back" size={24} color="#393939" />
-                      <Text style={styles.backText}>Retour au menu</Text>
+                      <Text style={styles.backText}>Retour à la connexion</Text>
                 </TouchableOpacity>
             </View>
           </LinearGradient>
@@ -119,6 +125,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 16,
         paddingVertical: 12,
+        paddingTop: 36,
         gap: 8,
     },
     backText: {
@@ -226,5 +233,15 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 16,
         fontWeight: '900',
+    },
+    success: {
+        color: 'green',
+        marginTop: 20,
+        textAlign: 'center',
+    },
+    error: {
+        color: 'red',
+        marginTop: 20,
+        textAlign: 'center',
     },
 });

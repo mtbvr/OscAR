@@ -7,7 +7,7 @@ const HeaderNavbar = () => (
   <View style={styles.shadowWrapper}>
     <LinearGradient
       colors={['#F72C25', '#F7B32B']}
-      start={{ x: -0.25, y: 0 }}
+      start={{ x: -0.15, y: 0 }}
       end={{ x: 1, y: 0 }}
       style={styles.navbar}
     >

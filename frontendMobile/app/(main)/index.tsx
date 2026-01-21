@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+// Maps screen component
+
 export default function MapsScreen() {
     return (
         <View style={styles.content}>

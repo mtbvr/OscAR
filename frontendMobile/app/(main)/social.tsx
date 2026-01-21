@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+// Social screen component
+
 export default function SocialScreen() {
     return (
         <View style={styles.content}>
