@@ -1,5 +1,5 @@
 import React from "react";
-import DynamicForm from "../../common/components/DynamicForm.jsx";
+import DynamicForm from "../../common/components/dynamic_form/DynamicForm.jsx";
 
 export default function Authentification() {
   const fields = [
