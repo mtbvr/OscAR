@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from 'expo-asset';
 import { useRouter, usePathname } from 'expo-router';
-import { theme, globalStyles } from '../../constants/theme';
+import { theme } from '../../constants/theme';
+import { useAuth } from '../../context/AuthContext'; // Import centralisé
 
 // Icon paths
 const ICON_PATHS = {
@@ -11,12 +12,6 @@ const ICON_PATHS = {
     hunt: require('../../assets/icon/target.svg'),
     social: require('../../assets/icon/loyalty-points.svg'),
     connexion: require('../../assets/icon/user.svg'),
-};
-
-// TODO: Replace with real authentication context
-const useAuth = () => {
-    const [isAuthenticated] = useState(false); // Change to true to test profil
-    return { isAuthenticated };
 };
 
 // Get URI from icon module

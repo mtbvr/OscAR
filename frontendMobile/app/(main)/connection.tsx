@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from 'expo-asset';
-import { theme, globalStyles } from '../constants/theme';
+import { theme, globalStyles } from '../../constants/theme';
 
 // Connection screen 
 
@@ -36,7 +36,7 @@ export default function ConnexionScreen() {
                         <Text style={[globalStyles.label, { paddingBottom: theme.SPACING.small }]}>Email</Text>
                         <View style={theme.INPUT_STYLES.container}>
                             <SvgUri
-                                uri={getIconUri(require('../assets/icon/mail.svg'))}
+                                uri={getIconUri(require('../../assets/icon/mail.svg'))}
                                 width={20}
                                 height={20}
                                 style={{ marginRight: theme.SPACING.small }}
@@ -56,7 +56,7 @@ export default function ConnexionScreen() {
                         <Text style={[globalStyles.label, { paddingBottom: theme.SPACING.small }]}>Mot de passe</Text>
                         <View style={[theme.INPUT_STYLES.container, { marginBottom: theme.SPACING.small }]}>
                             <SvgUri
-                                uri={getIconUri(require('../assets/icon/lock.svg'))}
+                                uri={getIconUri(require('../../assets/icon/lock.svg'))}
                                 width={20}
                                 height={20}
                                 style={{ marginRight: theme.SPACING.small }}
