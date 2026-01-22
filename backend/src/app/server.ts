@@ -1,7 +1,8 @@
 import express from 'express';
+import 'dotenv/config';
 import cors from 'cors';
 import helloRoutes from '../routes/HelloRoutes.js';
-import 'dotenv/config';
+import usersRoutes from '../routes/UsersRoutes.js';
 
 const app = express();
 
@@ -10,21 +11,9 @@ app.use(cors({
 }));
 
 app.use('/api', helloRoutes);
+app.use('/api', usersRoutes)
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);
 });
-
-import { pool } from "../common-lib/config/database.js";
-
-async function testDb() {
-  try {
-    const result = await pool.query("SELECT NOW()");
-    console.log("Connexion Neon OK");
-  } catch (err) {
-    console.error("Erreur :", err);
-  }
-}
-
-testDb();
