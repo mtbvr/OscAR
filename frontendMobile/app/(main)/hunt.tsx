@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { theme, globalStyles } from '../../constants/theme';
 
-// Hunt screen component
+// Hunt screen
 
 export default function HuntScreen() {
     return (

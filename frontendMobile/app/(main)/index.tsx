@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { theme, globalStyles } from '../../constants/theme';
 
-// Maps screen component
+// Maps screen
 
 export default function MapsScreen() {
   return (

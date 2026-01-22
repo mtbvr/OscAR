@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { theme, globalStyles } from '../../constants/theme';
 
-// Social screen component
+// Social screen
 
 export default function SocialScreen() {
     return (

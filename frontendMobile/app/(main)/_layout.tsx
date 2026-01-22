@@ -17,7 +17,7 @@ export default function MainLayout() {
     const pathname = usePathname();
     const { isAuthenticated } = useAuth();
 
-    // Redirect logic for the "connection" page
+    // Redirect logic for the "connection" / "profil" page
     useEffect(() => {
         if (normalizeRoute(pathname) === '/connection' && isAuthenticated) {
             router.replace('/profil'); // Redirect to profil if already logged in

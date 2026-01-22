@@ -1,5 +1,7 @@
 import { Stack } from 'expo-router';
 
+// Root layout defining the main navigation stack
+
 export default function RootLayout() {
     return (
         <Stack screenOptions={{ headerShown: false, animation: 'none' }}>

@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { theme, globalStyles } from '../../constants/theme';
 
 // Header navigation bar component
+
 const HeaderNavbar = () => (
   <View style={styles.shadowWrapper}>
     <LinearGradient
