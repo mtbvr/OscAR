@@ -7,4 +7,9 @@ export class UsersServiceImpl implements UsersService {
     const users = await userRepository.findAll();
     return users.map(userMapper.toDTO);
   }
+
+  async createUser(userData: any) {
+    const newUser = await userRepository.create(userData);
+    return userMapper.toDTONewUser(newUser);
+  }
 }

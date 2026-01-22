@@ -1,7 +1,7 @@
 export default function Header() {
   return (
     <header>
-      <h2>Mon application Celoma</h2>
+      <h1>Lootopia</h1>
     </header>
   );
 }

@@ -5,4 +5,6 @@ const usersRoutes = Router();
 
 usersRoutes.get("/users", usersController.getAll);
 
+usersRoutes.post("/users", usersController.createUser);
+
 export default usersRoutes;

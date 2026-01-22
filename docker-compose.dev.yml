@@ -1,15 +1,20 @@
 services:
+
   frontend-desktop:
     build:
       context: ./frontend-desktop
       dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend-desktop:/app
+      - /app/node_modules
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
       - FAST_REFRESH=true
+      - REACT_APP_API_URL=http://localhost:5000/api
 
   backend:
     build:
@@ -23,6 +28,7 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
+      - FRONT_URL=http://localhost:3000
     dns:
       - 8.8.8.8
       - 1.1.1.1
