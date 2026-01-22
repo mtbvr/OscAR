@@ -1,32 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
+import { theme, globalStyles } from '../../constants/theme';
 
 // Hunt screen component
 
 export default function HuntScreen() {
     return (
-        <View style={styles.content}>
-            <Text style={styles.title}>Chasses</Text>
-            <Text style={styles.subtitle}>Contenu des chasses à venir.</Text>
+        <View style={[theme.CONTAINER_STYLES.center, theme.CONTAINER_STYLES.padded]}>
+            <Text style={globalStyles.subtitle}>Chasses</Text>
+            <Text style={globalStyles.smallText}>Contenu des chasses à venir.</Text>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 24,
-    },
-    title: {
-        fontSize: 22,
-        fontWeight: '700',
-        marginBottom: 8,
-        color: '#1f1f1f',
-    },
-    subtitle: {
-        fontSize: 14,
-        color: '#666',
-    },
-});

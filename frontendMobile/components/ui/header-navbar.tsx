@@ -1,17 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { theme, globalStyles } from '../../constants/theme';
 
 // Header navigation bar component
 const HeaderNavbar = () => (
   <View style={styles.shadowWrapper}>
     <LinearGradient
-      colors={['#F72C25', '#F7B32B']}
+      colors={[theme.COLORS.primary, theme.COLORS.secondary]}
       start={{ x: -0.15, y: 0 }}
       end={{ x: 1, y: 0 }}
       style={styles.navbar}
     >
-      <Text style={styles.title}>LOOTOPIA</Text>
+      <Text style={[globalStyles.title, styles.title, { fontSize: 30 }]}>LOOTOPIA</Text>
     </LinearGradient>
   </View>
 );
@@ -19,7 +20,7 @@ const HeaderNavbar = () => (
 const styles = StyleSheet.create({
   shadowWrapper: {
     width: '100%',
-    shadowColor: '#000000',
+    shadowColor: theme.COLORS.icon,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.25,
     shadowRadius: 10,
@@ -32,10 +33,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 25,
-    fontWeight: 900,
-    fontFamily: 'sans-serif',
-    color: '#FFFFFF',
+    fontSize: theme.FONT_SIZES.subtitle,
+    fontWeight: '900',
+    color: theme.COLORS.background,
   },
 });
 
