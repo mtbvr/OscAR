@@ -1,10 +1,14 @@
 services:
+
   frontend-desktop:
     build:
       context: ./frontend-desktop
       dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend-desktop:/app
+      - /app/node_modules
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
