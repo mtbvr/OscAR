@@ -10,4 +10,5 @@ WORKDIR /app
 COPY --from=build /app/dist ./dist
 COPY package*.json ./
 RUN npm install --omit=dev
+RUN ls -R /app
 CMD ["node", "dist/app/server.js"]
