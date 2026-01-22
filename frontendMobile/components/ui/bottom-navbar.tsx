@@ -55,9 +55,9 @@ export default function BottomNavbar({ currentRoute, onNavigate }: BottomNavbarP
     const pathname = currentRoute || usePathname();
     const { isAuthenticated } = useAuth();
 
-    // Define tabs with conditional Connexion/Profil tab
-    const connexionTab = {
-        key: 'connexion',
+    // Define tabs with conditional Connection/Profil tab
+    const connectionTab = {
+        key: 'connection',
         label: isAuthenticated ? 'Profil' : 'Connexion',
         route: isAuthenticated ? '/profil' : '/connection',
         icon: ICON_PATHS.connexion,
@@ -68,7 +68,7 @@ export default function BottomNavbar({ currentRoute, onNavigate }: BottomNavbarP
         { key: 'index', label: 'Maps', route: '/(main)', icon: ICON_PATHS.index },
         { key: 'hunt', label: 'Chasses', route: '/(main)/hunt', icon: ICON_PATHS.hunt },
         { key: 'social', label: 'Social', route: '/(main)/social', icon: ICON_PATHS.social },
-        connexionTab,
+        connectionTab,
     ];
 
     // Render the bottom navigation bar using the tabs defined

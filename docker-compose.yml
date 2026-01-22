@@ -1,13 +1,11 @@
-
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+    env_file:
+      - ./backend/.env
     ports:
       - "5000:5000"
-    volumes:
-      - ./backend:/app
-    environment:
-      - NODE_ENV=development
 
   frontend-desktop:
     build: ./frontend-desktop
