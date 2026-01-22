@@ -1,17 +1,18 @@
 import express from 'express';
+import 'dotenv/config';
 import cors from 'cors';
 import helloRoutes from '../routes/HelloRoutes.js';
+import usersRoutes from '../routes/UsersRoutes.js';
 
 const app = express();
 
-// Autoriser le front Vercel
 app.use(cors({
-  origin: process.env.FRONT_URL //https://oscar-deploiement.vercel.appeddd
+  origin: process.env.FRONT_URL
 }));
 
 app.use('/api', helloRoutes);
+app.use('/api', usersRoutes)
 
-// Utiliser le port fourni par Railway
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);
