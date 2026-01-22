@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function ChassesScreen() {
+// Hunt screen component
+
+export default function HuntScreen() {
     return (
         <View style={styles.content}>
             <Text style={styles.title}>Chasses</Text>
