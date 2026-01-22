@@ -15,7 +15,7 @@ const COLORS = {
 // Icon paths
 const ICON_PATHS = {
     index: require('../../assets/icon/map.svg'),
-    chasses: require('../../assets/icon/target.svg'),
+    hunt: require('../../assets/icon/target.svg'),
     social: require('../../assets/icon/loyalty-points.svg'),
     connexion: require('../../assets/icon/user.svg'),
 };
@@ -59,14 +59,14 @@ export default function BottomNavbar({ currentRoute, onNavigate }: BottomNavbarP
     const connexionTab = {
         key: 'connexion',
         label: isAuthenticated ? 'Profil' : 'Connexion',
-        route: isAuthenticated ? '/profil' : '/connexion',
+        route: isAuthenticated ? '/profil' : '/connection',
         icon: ICON_PATHS.connexion,
     };
 
     // Tabs array
     const tabs: Tab[] = [
         { key: 'index', label: 'Maps', route: '/(main)', icon: ICON_PATHS.index },
-        { key: 'chasses', label: 'Chasses', route: '/(main)/chasses', icon: ICON_PATHS.chasses },
+        { key: 'hunt', label: 'Chasses', route: '/(main)/hunt', icon: ICON_PATHS.hunt },
         { key: 'social', label: 'Social', route: '/(main)/social', icon: ICON_PATHS.social },
         connexionTab,
     ];

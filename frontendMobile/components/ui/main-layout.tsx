@@ -9,6 +9,7 @@ interface MainLayoutProps {
 }
 
 // Main layout component wrapping all screens with header and bottom navigation
+
 export default function MainLayout({ children }: MainLayoutProps) {
   return (
     <SafeAreaView style={styles.container}>
