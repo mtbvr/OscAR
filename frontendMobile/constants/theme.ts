@@ -11,6 +11,7 @@ const COLORS = {
   icon: '#393939',
   active: '#F7B32B',
   inactive: '#393939',
+  success: '#4BB543',
 };
 
 const FONT_SIZES = {
