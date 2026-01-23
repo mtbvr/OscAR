@@ -1,16 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from 'expo-asset';
 import { useRouter, usePathname } from 'expo-router';
-
-// Navbar colors
-const COLORS = {
-    inactive: '#393939',
-    active: '#F7B32B',
-    background: '#FEFEFE',
-    border: '#F7B32B',
-};
+import { theme } from '../../constants/theme';
+import { useAuth } from '../../context/AuthContext'; // Import centralisé
 
 // Icon paths
 const ICON_PATHS = {
@@ -18,12 +12,6 @@ const ICON_PATHS = {
     hunt: require('../../assets/icon/target.svg'),
     social: require('../../assets/icon/loyalty-points.svg'),
     connexion: require('../../assets/icon/user.svg'),
-};
-
-// TODO: Replace with real authentication context
-const useAuth = () => {
-    const [isAuthenticated] = useState(false); // Change to true to test profil
-    return { isAuthenticated };
 };
 
 // Get URI from icon module
@@ -55,9 +43,9 @@ export default function BottomNavbar({ currentRoute, onNavigate }: BottomNavbarP
     const pathname = currentRoute || usePathname();
     const { isAuthenticated } = useAuth();
 
-    // Define tabs with conditional Connexion/Profil tab
-    const connexionTab = {
-        key: 'connexion',
+    // Define tabs with conditional Connection/Profil tab
+    const connectionTab = {
+        key: 'connection',
         label: isAuthenticated ? 'Profil' : 'Connexion',
         route: isAuthenticated ? '/profil' : '/connection',
         icon: ICON_PATHS.connexion,
@@ -68,40 +56,40 @@ export default function BottomNavbar({ currentRoute, onNavigate }: BottomNavbarP
         { key: 'index', label: 'Maps', route: '/(main)', icon: ICON_PATHS.index },
         { key: 'hunt', label: 'Chasses', route: '/(main)/hunt', icon: ICON_PATHS.hunt },
         { key: 'social', label: 'Social', route: '/(main)/social', icon: ICON_PATHS.social },
-        connexionTab,
+        connectionTab,
     ];
 
     // Render the bottom navigation bar using the tabs defined
     return (
         <View style={styles.container}>
-        {tabs.map((tab) => {
-            const isActive =
-            (tab.key === 'index' && (pathname === '/' || normalizeRoute(pathname) === normalizeRoute(tab.route))) ||
-            normalizeRoute(pathname) === normalizeRoute(tab.route);
-            const itemColor = isActive ? COLORS.active : COLORS.inactive;
-            const iconUri = getIconUri(tab.icon);
+            {tabs.map((tab) => {
+                const isActive =
+                    (tab.key === 'index' && (pathname === '/' || normalizeRoute(pathname) === normalizeRoute(tab.route))) ||
+                    normalizeRoute(pathname) === normalizeRoute(tab.route);
+                const itemColor = isActive ? theme.COLORS.active : theme.COLORS.inactive;
+                const iconUri = getIconUri(tab.icon);
 
-            return (
-            <TouchableOpacity
-                key={tab.key}
-                style={styles.tabButton}
-                onPress={() => onNavigate ? onNavigate(tab.route) : router.push(tab.route as any)}
-                activeOpacity={0.7}
-            >
-                {iconUri && (
-                <SvgUri
-                    uri={iconUri}
-                    width={28}
-                    height={28}
-                    color={itemColor}
-                />
-                )}
-                <Text style={[styles.label, { color: itemColor }]}>
-                {tab.label}
-                </Text>
-            </TouchableOpacity>
-            );
-        })}
+                return (
+                    <TouchableOpacity
+                        key={tab.key}
+                        style={styles.tabButton}
+                        onPress={() => onNavigate ? onNavigate(tab.route) : router.push(tab.route as any)}
+                        activeOpacity={0.7}
+                    >
+                        {iconUri && (
+                            <SvgUri
+                                uri={iconUri}
+                                width={28}
+                                height={28}
+                                color={itemColor}
+                            />
+                        )}
+                        <Text style={[styles.label, { color: itemColor }]}>
+                            {tab.label}
+                        </Text>
+                    </TouchableOpacity>
+                );
+            })}
         </View>
     );
 }
@@ -112,18 +100,18 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         height: 80,
-        paddingTop: 40,
-        paddingHorizontal: 8,
-        backgroundColor: COLORS.background,
+        paddingTop: theme.SPACING.large,
+        paddingHorizontal: theme.SPACING.small,
+        backgroundColor: theme.COLORS.background,
         borderTopWidth: 3,
-        borderTopColor: COLORS.border,
+        borderTopColor: theme.COLORS.active,
     },
     tabButton: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 8,
-        gap: 6,
+        paddingVertical: theme.SPACING.small,
+        gap: theme.SPACING.small,
     },
     label: {
         fontSize: 12,

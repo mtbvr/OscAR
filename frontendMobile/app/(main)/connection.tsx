@@ -5,11 +5,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from 'expo-asset';
-import { theme, globalStyles } from '../constants/theme';
+import { theme, globalStyles } from '../../constants/theme';
 
-// Inscription screen 
+// Connection screen 
 
-export default function InscriptionScreen() {
+export default function ConnexionScreen() {
     const router = useRouter();
 
     // Get URI from icon module
@@ -31,32 +31,12 @@ export default function InscriptionScreen() {
                         La chasse vous attend !
                     </Text>
 
-                    {/* Input Pseudo */}
-                    <View style={{ marginBottom: theme.SPACING.medium }}>
-                        <Text style={[globalStyles.label, { paddingBottom: theme.SPACING.small }]}>Pseudo</Text>
-                        <View style={theme.INPUT_STYLES.container}>
-                            <SvgUri
-                                uri={getIconUri(require('../assets/icon/user.svg'))}
-                                width={20}
-                                height={20}
-                                style={{ marginRight: theme.SPACING.small }}
-                                color={theme.COLORS.placeholder}
-                            />
-                            <TextInput
-                                style={[theme.INPUT_STYLES.text, { paddingVertical: theme.SPACING.medium }]}
-                                placeholder="JeanDupont"
-                                placeholderTextColor={theme.COLORS.placeholder}
-                                keyboardType="default"
-                            />
-                        </View>
-                    </View>
-
                     {/* Input Email */}
-                    <View style={{ marginBottom: theme.SPACING.medium }}>
+                    <View style={[{ paddingBottom: theme.SPACING.medium }]}>
                         <Text style={[globalStyles.label, { paddingBottom: theme.SPACING.small }]}>Email</Text>
                         <View style={theme.INPUT_STYLES.container}>
                             <SvgUri
-                                uri={getIconUri(require('../assets/icon/mail.svg'))}
+                                uri={getIconUri(require('../../assets/icon/mail.svg'))}
                                 width={20}
                                 height={20}
                                 style={{ marginRight: theme.SPACING.small }}
@@ -72,11 +52,11 @@ export default function InscriptionScreen() {
                     </View>
 
                     {/* Input Password */}
-                    <View style={{ marginBottom: theme.SPACING.medium }}>
+                    <View>
                         <Text style={[globalStyles.label, { paddingBottom: theme.SPACING.small }]}>Mot de passe</Text>
-                        <View style={theme.INPUT_STYLES.container}>
+                        <View style={[theme.INPUT_STYLES.container, { marginBottom: theme.SPACING.small }]}>
                             <SvgUri
-                                uri={getIconUri(require('../assets/icon/lock.svg'))}
+                                uri={getIconUri(require('../../assets/icon/lock.svg'))}
                                 width={20}
                                 height={20}
                                 style={{ marginRight: theme.SPACING.small }}
@@ -89,29 +69,16 @@ export default function InscriptionScreen() {
                                 secureTextEntry
                             />
                         </View>
+
+                        {/* Link "Forgot Password?" */}
+                        <TouchableOpacity onPress={() => router.push('/forgot-password')} activeOpacity={0.7}>
+                            <Text style={[globalStyles.tinyText, { color: theme.COLORS.secondary, marginBottom: theme.SPACING.large, fontWeight: '600' }]}>
+                                Mot de passe oublié ?
+                            </Text>
+                        </TouchableOpacity>
                     </View>
 
-                    {/* Input Confirm Password */}
-                    <View style={{ marginBottom: theme.SPACING.medium }}>
-                        <Text style={[globalStyles.label, { paddingBottom: theme.SPACING.small }]}>Confirmez le mot de passe</Text>
-                        <View style={theme.INPUT_STYLES.container}>
-                            <SvgUri
-                                uri={getIconUri(require('../assets/icon/lock.svg'))}
-                                width={20}
-                                height={20}
-                                style={{ marginRight: theme.SPACING.small }}
-                                color={theme.COLORS.placeholder}
-                            />
-                            <TextInput
-                                style={[theme.INPUT_STYLES.text, { paddingVertical: theme.SPACING.medium }]}
-                                placeholder="************"
-                                placeholderTextColor={theme.COLORS.placeholder}
-                                secureTextEntry
-                            />
-                        </View>
-                    </View>
-
-                    {/* Registration Button */}
+                    {/* Button "Sign In" */}
                     <TouchableOpacity style={[theme.BUTTON_STYLES.default, { width: '100%' }]}>
                         <LinearGradient
                             colors={[theme.COLORS.primary, theme.COLORS.secondary]}
@@ -119,18 +86,18 @@ export default function InscriptionScreen() {
                             end={{ x: 1, y: 0 }}
                             style={[theme.BUTTON_STYLES.default, { width: '100%' }]}
                         >
-                            <Text style={[globalStyles.text, { color: theme.COLORS.background, fontWeight: '900' }]}>
-                                S'inscrire
+                            <Text style={[globalStyles.text, { color: theme.COLORS.background, fontWeight: '900', paddingHorizontal: theme.SPACING.large }]}>
+                                Se connecter
                             </Text>
                         </LinearGradient>
                     </TouchableOpacity>
 
-                    {/* Link "Sign In" */}
+                    {/* Link "Sign Up" */}
                     <View style={{ marginTop: theme.SPACING.medium, marginBottom: theme.SPACING.large }}>
-                        <Text style={globalStyles.tinyText}>Vous avez déjà un compte ?</Text>
-                        <TouchableOpacity onPress={() => router.push('/connection')} activeOpacity={0.7}>
+                        <Text style={globalStyles.tinyText}>Vous n'avez pas encore de compte ?</Text>
+                        <TouchableOpacity onPress={() => router.push('/inscription')} activeOpacity={0.7}>
                             <Text style={[globalStyles.tinyText, { color: theme.COLORS.secondary, fontWeight: '600' }]}>
-                                Connectez-vous !
+                                Inscrivez-vous !
                             </Text>
                         </TouchableOpacity>
                     </View>

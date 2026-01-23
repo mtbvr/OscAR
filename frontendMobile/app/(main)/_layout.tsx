@@ -1,40 +1,52 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Slot, useRouter, usePathname } from 'expo-router';
 import HeaderNavbar from '../../components/ui/header-navbar';
 import BottomNavbar from '../../components/ui/bottom-navbar';
+import { theme } from '../../constants/theme';
+import { useAuth } from '../../context/AuthContext';
 
-// Main layout component wrapping all screens with header and bottom navigation
+// Normalize routes to ignore the /(main) prefix
+function normalizeRoute(route: string): string {
+    return route.replace('/(main)', '');
+}
 
 export default function MainLayout() {
     const router = useRouter();
     const pathname = usePathname();
+    const { isAuthenticated } = useAuth();
 
-    // Define the correct routing behavior based on user session or not (connected or not)
-    const handleNavigate = (route: any) => {
-        if (route === '/connexion' || route === '/profil') {
-        router.push(route);
-        } else {
-        router.replace(route);}
-    };
+    // Redirect logic for the "connection" / "profil" page
+    useEffect(() => {
+        if (normalizeRoute(pathname) === '/connection' && isAuthenticated) {
+            router.replace('/profil'); // Redirect to profil if already logged in
+        }
+    }, [pathname, isAuthenticated]);
 
-    // Render the layout with header, content slot, and bottom navigation
+    // Check if the current route is "connection"
+    const isConnectionPage = normalizeRoute(pathname) === '/connection';
+
+    // Use SafeAreaView only if not on the connection page
+    const Container = isConnectionPage ? View : SafeAreaView;
+
     return (
-        <SafeAreaView style={styles.container}>
-        <HeaderNavbar />
+        <Container style={styles.container}>
+            {/* Only show HeaderNavbar if not on the connection page */}
+            {!isConnectionPage && <HeaderNavbar />}
             <View style={styles.content}>
                 <Slot />
             </View>
-        <BottomNavbar currentRoute={pathname} onNavigate={handleNavigate} />
-        </SafeAreaView>
+            {/* Only show BottomNavbar if not on the connection page */}
+            {!isConnectionPage && <BottomNavbar currentRoute={pathname} />}
+        </Container>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FEFEFE',
+        backgroundColor: theme.COLORS.background,
     },
     content: {
         flex: 1,
