@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from 'expo-asset';
-import axios from 'axios';
-import { Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
+import { BACKEND_URL } from '@env';
 
 // Forgot Password screen 
 
 export default function ForgotPasswordScreen() {
     const router = useRouter();
     const [email, setEmail] = useState('');
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
 
     // Get URI from icon module
     function getIconUri(iconSource: number): string {
@@ -21,15 +22,12 @@ export default function ForgotPasswordScreen() {
     }
 
     const handleReset = async () => {
-        if (!email) {
-            alert('Veuillez entrer une adresse email valide.');
-            return;
-        }
-
-        const code = Math.floor(100000 + Math.random() * 900000); // Génère un code à 6 chiffres
+        if (!email) return;
 
         try {
-            const response = await fetch('http://localhost:5000/api/password-reset', {
+            setLoading(true);
+
+            await fetch(`${BACKEND_URL}/api/auth/forgot-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -37,22 +35,13 @@ export default function ForgotPasswordScreen() {
                 body: JSON.stringify({ email }),
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Échec de l\'envoi de l\'email');
-            }
-
-            const data = await response.json();
-            setMessage(data.message);
-            setError('');
             router.push('/forgot-password-send');
-        } catch (err: any) {
-            setError(err.message);
-            setMessage('');
-            console.error('Erreur lors de l\'envoi de l\'email :', err);
-            alert('Une erreur est survenue lors de l\'envoi de l\'email.');
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
         }
-    };
+        };
 
     return (
       <View style={{flex: 1}}>
@@ -63,27 +52,27 @@ export default function ForgotPasswordScreen() {
                 
                 {/* Input Email */}
                 <View>
-                  <Text style={styles.inputTexte}>Email</Text>
-                  <View style={styles.inputContainer}>
-                      <SvgUri
-                          uri={getIconUri(require('../assets/icon/mail.svg'))}
-                          width={20}
-                          height={20}
-                          style={styles.inputIcon}
-                          color={'#cdcdcdff'}
-                      />
-                      <TextInput
-                          style={styles.input}
-                          placeholder="votre@email.com"
-                          placeholderTextColor="#A9A9A9"
-                          keyboardType="email-address"
-                          value={email}
-                          onChangeText={setEmail}
-                      />
-                  </View>
+                    <Text style={styles.inputTexte}>Email</Text>
+                    <View style={styles.inputContainer}>
+                        <SvgUri
+                            uri={getIconUri(require('../assets/icon/mail.svg'))}
+                            width={20}
+                            height={20}
+                            style={styles.inputIcon}
+                            color={'#cdcdcdff'}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="votre@email.com"
+                            placeholderTextColor="#A9A9A9"
+                            keyboardType="email-address"
+                            value={email}
+                            onChangeText={setEmail}
+                        />
+                    </View>
                 </View>
 
-                {/* Button "Réinitialiser" */}
+                {/* Button "Sign In" */}
                 <TouchableOpacity style={styles.buttonContainer} onPress={handleReset}>
                     <LinearGradient
                         colors={['#F72C25', '#F7B32B']}
@@ -94,10 +83,6 @@ export default function ForgotPasswordScreen() {
                         <Text style={styles.buttonText}>Réinitialiser</Text>
                     </LinearGradient>
                 </TouchableOpacity>
-
-                {/* Message Success/Error */}
-                {message ? <Text style={styles.success}>{message}</Text> : null}
-                {error ? <Text style={styles.error}>{error}</Text> : null}
 
                 {/* Back Button */}
                 <TouchableOpacity style={styles.backButton} onPress={() => router.push('/connection')} activeOpacity={0.7}>
@@ -233,15 +218,5 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 16,
         fontWeight: '900',
-    },
-    success: {
-        color: 'green',
-        marginTop: 20,
-        textAlign: 'center',
-    },
-    error: {
-        color: 'red',
-        marginTop: 20,
-        textAlign: 'center',
     },
 });
