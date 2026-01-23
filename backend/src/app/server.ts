@@ -1,26 +1,20 @@
 import express from 'express';
+import 'dotenv/config';
 import cors from 'cors';
 import helloRoutes from '../routes/HelloRoutes.js';
-import authRoutes from '../routes/auth.js';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import usersRoutes from '../routes/UsersRoutes.js';
 
 const app = express();
 
-// 🔥 IMPORTANT : pour lire req.body
+app.use(cors({
+  origin: process.env.FRONT_URL
+}));
+
 app.use(express.json());
-
-// Autoriser le front
-app.use(cors({ origin: '*' }));
-
 app.use('/api', helloRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/api', usersRoutes)
 
-// Port Railway
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);
 });
-
-//test
