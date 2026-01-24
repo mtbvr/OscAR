@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { theme, globalStyles } from '../../constants/theme';
 import PlaceholderNotConnected from '../../components/placeholder-not-connected';
 import { useAuth } from '../../context/AuthContext';
@@ -55,7 +55,7 @@ export default function HuntScreen() {
     const { isAuthenticated } = useAuth();
 
     return (
-        <View style={{ paddingVertical: theme.SPACING.large, paddingHorizontal: theme.SPACING.large, flex: 1 }}>
+        <ScrollView style={{ paddingVertical: theme.SPACING.large, paddingHorizontal: theme.SPACING.large, flex: 1, height: '100%'  }}>
             <Text style={{ ...globalStyles.subtitle, fontWeight: '800' }}>Mes Chasses</Text>
             <HuntSection
                 title="Chasses en cours (0)"
@@ -75,6 +75,6 @@ export default function HuntScreen() {
                 buttonText="Se connecter →"
                 isAuthenticated={isAuthenticated}
             />
-        </View>
+        </ScrollView>
     );
 }
