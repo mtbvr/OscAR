@@ -8,6 +8,7 @@ import HeaderNavbar from '@/components/ui/header-navbar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomNavbar from '@/components/ui/bottom-navbar';
 import { SvgUri } from 'react-native-svg';
+import AddFriends from '../components/add-friends';
 
 // Icon mapping
 const ICONS = {
@@ -56,14 +57,7 @@ export default function SocialFriendsScreen() {
                 <Text style={{ fontSize: theme.FONT_SIZES.text, color: theme.COLORS.textSecondary }}>Liste détaillée des amis à venir.</Text>
                 
                 {/* Add friends button */}
-                <TouchableOpacity style={[{ width: '100%', marginTop: theme.SPACING.medium, backgroundColor: '#d1f2cd', paddingVertical: theme.SPACING.medium, borderRadius: 12 }]} onPress={() => router.push('/')}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: theme.SPACING.small }}>
-                        <Text style={[{ fontSize: theme.FONT_SIZES.text, color: theme.COLORS.textPrimary, fontWeight: '700' }]}>
-                            Ajouter des amis
-                        </Text>
-                        <SvgUri uri={getIconUri("plus.svg")} width={20} height={20} color={theme.COLORS.textPrimary} />
-                    </View>
-                </TouchableOpacity>
+                <AddFriends />
             </View>
         </View>
 
