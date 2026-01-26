@@ -31,7 +31,7 @@ interface StatsCardProps {
 // StatsCard component
 const StatsCard: React.FC<StatsCardProps> = ({ icon, value, label, backgroundColor, iconColor, width, height }) => {
     return (
-        <View style={{ flex: 1, alignItems: 'center', padding: theme.SPACING.medium, backgroundColor, borderRadius: 12, marginHorizontal: theme.SPACING.small, gap: theme.SPACING.small }}>
+        <View style={{ flex: 1, alignItems: 'center', padding: theme.SPACING.medium, backgroundColor, borderRadius: 12, gap: theme.SPACING.small }}>
             <SvgUri uri={getIconUri(icon)} width={width} height={height} color={iconColor} />
             <Text style={{ fontSize: theme.FONT_SIZES.smallText, fontWeight: '800', color: theme.COLORS.textPrimary }}>{value}</Text>
             <Text style={{ fontSize: theme.FONT_SIZES.tinyText, color: theme.COLORS.textSecondary, textAlign: 'center' }}>{label}</Text>
