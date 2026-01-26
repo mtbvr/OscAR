@@ -1,0 +1,42 @@
+import React from 'react';
+import { View, Text } from 'react-native';
+import { SvgUri } from 'react-native-svg';
+import { theme } from '../../constants/theme';
+import { Asset } from 'expo-asset';
+
+// Icon mapping
+const ICONS = {
+    "target-larger.svg": require('../../assets/icon/target-larger.svg'),
+    "pin.svg": require('../../assets/icon/pin.svg'),
+    "group.svg": require('../../assets/icon/group.svg'),
+} as const;
+
+// Function to get the URI of the SVG icon
+function getIconUri(iconName: keyof typeof ICONS): string {
+    const iconSource = ICONS[iconName];
+    return Asset.fromModule(iconSource).uri || '';
+}
+
+// Props for StatsCard
+interface StatsCardProps {
+    icon: keyof typeof ICONS;
+    value: number;
+    label: string;
+    backgroundColor: string;
+    iconColor: string;
+    width: number;
+    height: number;
+}
+
+// StatsCard component
+const StatsCard: React.FC<StatsCardProps> = ({ icon, value, label, backgroundColor, iconColor, width, height }) => {
+    return (
+        <View style={{ flex: 1, alignItems: 'center', padding: theme.SPACING.medium, backgroundColor, borderRadius: 12, gap: theme.SPACING.small }}>
+            <SvgUri uri={getIconUri(icon)} width={width} height={height} color={iconColor} />
+            <Text style={{ fontSize: theme.FONT_SIZES.smallText, fontWeight: '800', color: theme.COLORS.textPrimary }}>{value}</Text>
+            <Text style={{ fontSize: theme.FONT_SIZES.tinyText, color: theme.COLORS.textSecondary, textAlign: 'center' }}>{label}</Text>
+        </View>
+    );
+};
+
+export default StatsCard;

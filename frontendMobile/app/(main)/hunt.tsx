@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { theme, globalStyles } from '../../constants/theme';
 import PlaceholderNotConnected from '../../components/placeholder-not-connected';
 import { useAuth } from '../../context/AuthContext';
@@ -55,26 +55,28 @@ export default function HuntScreen() {
     const { isAuthenticated } = useAuth();
 
     return (
-        <ScrollView style={{ paddingVertical: theme.SPACING.large, paddingHorizontal: theme.SPACING.large, flex: 1, height: '100%'  }}>
-            <Text style={{ ...globalStyles.subtitle, fontWeight: '800' }}>Mes Chasses</Text>
-            <HuntSection
-                title="Chasses en cours (0)"
-                icon="target-larger.svg"
-                iconColor={theme.COLORS.primary}
-                placeholderIcon="target-larger.svg"
-                placeholderMessage="Connectez-vous pour pouvoir voir vos chasses en cours !"
-                buttonText="Se connecter →"
-                isAuthenticated={isAuthenticated}
-            />
-            <HuntSection
-                title="Chasses complétées (0)"
-                icon="check.svg"
-                iconColor={theme.COLORS.success}
-                placeholderIcon="target-larger.svg"
-                placeholderMessage="Connectez-vous pour pouvoir enregistrer votre progression !"
-                buttonText="Se connecter →"
-                isAuthenticated={isAuthenticated}
-            />
-        </ScrollView>
+        <KeyboardAvoidingView style={{ flex: 1 }}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, paddingVertical: theme.SPACING.large, paddingHorizontal: theme.SPACING.large }}>
+                <Text style={{ ...globalStyles.subtitle, fontWeight: '800' }}>Mes Chasses</Text>
+                <HuntSection
+                    title="Chasses en cours (0)"
+                    icon="target-larger.svg"
+                    iconColor={theme.COLORS.primary}
+                    placeholderIcon="target-larger.svg"
+                    placeholderMessage="Connectez-vous pour pouvoir voir vos chasses en cours !"
+                    buttonText="Se connecter →"
+                    isAuthenticated={isAuthenticated}
+                />
+                <HuntSection
+                    title="Chasses complétées (0)"
+                    icon="check.svg"
+                    iconColor={theme.COLORS.success}
+                    placeholderIcon="target-larger.svg"
+                    placeholderMessage="Connectez-vous pour pouvoir enregistrer votre progression !"
+                    buttonText="Se connecter →"
+                    isAuthenticated={isAuthenticated}
+                />
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
