@@ -3,6 +3,7 @@ import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 const COLORS = {
   primary: '#F72C25',
   secondary: '#F7B32B',
+  tertiary: '#4156C0',
   background: '#FEFEFE',
   textPrimary: '#1f1f1f',
   textSecondary: '#666',
@@ -12,6 +13,7 @@ const COLORS = {
   active: '#F7B32B',
   inactive: '#393939',
   success: '#4BB543',
+  error: '#F72C25',
 };
 
 const FONT_SIZES = {
