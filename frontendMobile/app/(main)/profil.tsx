@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { theme } from '../../constants/theme';
-import StatsCard from '../../components/ui/StatsCard';
+import StatsCard from '../../components/ui/stats-card';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from 'expo-asset';
 import { LinearGradient } from 'expo-linear-gradient';
