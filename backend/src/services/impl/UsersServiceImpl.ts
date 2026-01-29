@@ -1,6 +1,8 @@
 import { UsersService } from "../UsersService.js";
-import { userRepository } from "../../common-lib/repositories/UsersRepository.js";
+import { UserRepository } from "../../common-lib/repositories/UsersRepository.js";
 import { userMapper } from "../../mapper/UsersMapper.js";
+
+const userRepository = new UserRepository();
 
 export class UsersServiceImpl implements UsersService {
   async getAllUsers() {

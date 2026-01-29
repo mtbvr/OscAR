@@ -3,9 +3,9 @@ import { UsersServiceImpl } from "../services/impl/UsersServiceImpl.js";
 
 const usersService = new UsersServiceImpl();
 
-export const usersController = {
+export class UsersController  {
 
-  async getAll(req: Request, res: Response) {
+  static async getAll(req: Request, res: Response) {
     try {
       const users = await usersService.getAllUsers();
       res.json(users);
@@ -13,9 +13,9 @@ export const usersController = {
       console.error(err);
       res.status(500).json({ error: "Internal server error" });
     }
-  },
+  }
 
-  async createUser(req: Request, res: Response) {
+  static async createUser(req: Request, res: Response) {
     try {
       const userData = req.body;
       const newUser = await usersService.createUser(userData);
