@@ -4,8 +4,10 @@ import { authMiddleware } from "../common-lib/middlewares/AuthMiddleware.js";
 
 const usersRoutes = Router();
 
-usersRoutes.get("/users", authMiddleware, UsersController.getAll);
+const usersController = new UsersController();
 
-usersRoutes.post("/users", UsersController.createUser);
+usersRoutes.get("/users", authMiddleware, usersController.getAll);
+
+usersRoutes.post("/users", usersController.createUser);
 
 export default usersRoutes;

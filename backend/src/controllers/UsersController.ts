@@ -1,13 +1,17 @@
 import { Request, Response } from "express";
 import { UsersServiceImpl } from "../services/impl/UsersServiceImpl.js";
 
-const usersService = new UsersServiceImpl();
-
 export class UsersController  {
 
-  static async getAll(req: Request, res: Response) {
+  private usersService: UsersServiceImpl;
+
+  constructor() {
+    this.usersService = new UsersServiceImpl();
+  }
+
+  async getAll(req: Request, res: Response) {
     try {
-      const users = await usersService.getAllUsers();
+      const users = await this.usersService.getAllUsers();
       res.json(users);
     } catch (err) {
       console.error(err);
@@ -15,10 +19,10 @@ export class UsersController  {
     }
   }
 
-  static async createUser(req: Request, res: Response) {
+  async createUser(req: Request, res: Response) {
     try {
       const userData = req.body;
-      const newUser = await usersService.createUser(userData);
+      const newUser = await this.usersService.createUser(userData);
       res.status(201).json(newUser);
     } catch (err) {
       console.error(err);

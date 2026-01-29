@@ -2,10 +2,15 @@ import { Request, Response } from "express";
 import { AuthServiceImpl } from "../services/impl/AuthServiceImpl.js";
 import { AuthRequestDTO } from "../common-lib/dto/auth/AuthRequestDTO.js";
 
-const authService = new AuthServiceImpl();
-
 export class AuthController {
-  static async authentificateUser(req: Request, res: Response) {
+
+  private authService: AuthServiceImpl;
+
+  constructor() {
+    this.authService = new AuthServiceImpl();
+  }
+
+  async authentificateUser(req: Request, res: Response) {
     try {
       const authRequest: AuthRequestDTO = req.body;
 
@@ -13,7 +18,7 @@ export class AuthController {
         return res.status(400).json({ error: "Missing credentials" });
       }
 
-      const result = await authService.connectUser(authRequest);
+      const result = await this.authService.connectUser(authRequest);
 
       if (!result) {
         return res.status(401).json({ error: "Invalid credentials" });
@@ -37,11 +42,11 @@ export class AuthController {
     }
   }
 
-  static async getCurrentUser(req: Request, res: Response) {
+  async getCurrentUser(req: Request, res: Response) {
      return res.json(req.user);
   }
 
-  static async logoutUser(req: Request, res: Response) {
+ async logoutUser(req: Request, res: Response) {
     res.clearCookie("token", {
         httpOnly: true,
         secure: true,

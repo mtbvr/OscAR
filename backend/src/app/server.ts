@@ -1,7 +1,6 @@
 import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
-import helloRoutes from '../routes/HelloRoutes.js';
 import usersRoutes from '../routes/UsersRoutes.js';
 import authRoutes from '../routes/AuthRoutes.js';
 import cookieParser from "cookie-parser";
@@ -16,7 +15,6 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api', helloRoutes);
 app.use('/api', usersRoutes)
 app.use('/api', authRoutes);
 
