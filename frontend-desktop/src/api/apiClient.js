@@ -6,6 +6,7 @@ export async function apiClient(
 ) {
   const res = await fetch(`${API_URL}${path}`, {
     method,
+    credentials: "include",
     headers: {
       'Content-Type': 'application/json',
       ...headers,
@@ -18,5 +19,14 @@ export async function apiClient(
     throw new Error(errorText || 'API error');
   }
 
-  return res.json();
+    if (res.status === 204) {
+    return null;
+  }
+
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    return res.json();
+  }
+
+  return null;
 }
