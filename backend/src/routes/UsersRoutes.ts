@@ -6,10 +6,8 @@ const usersRoutes = Router();
 
 const usersController = new UsersController();
 
-usersRoutes.get("/users", authMiddleware, usersController.getAll);
+usersRoutes.get("/users", authMiddleware, (req, res, next) => usersController.getAll(req, res, next));
 
-usersRoutes.post("/users", usersController.createUser);
-
-usersRoutes.get("/users/:id", usersController.getUserById);
+usersRoutes.post("/users", (req, res, next) => usersController.createUser(req, res, next));
 
 export default usersRoutes;

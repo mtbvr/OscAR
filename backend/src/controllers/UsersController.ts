@@ -29,16 +29,4 @@ export class UsersController  {
       next(err);
     }
   }
-
-  async getUserById(req: Request, res: Response, next: any) {
-    try {
-      console.log(".env JWT_SECRET:", process.env.JWT_SECRET);
-      const { id } = req.params;
-      const user = await this.usersService.getUserById(id);
-      res.status(200).json(user);
-    } catch (err) {
-      next(err);
-    }
-  }
-
 };

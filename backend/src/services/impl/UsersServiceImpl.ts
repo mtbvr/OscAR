@@ -27,15 +27,4 @@ export class UsersServiceImpl implements UsersService {
       });    
     }
   }
-
-  async getUserById(userId: string) {
-    const user =  await userRepository.findById(userId);
-    if (!user) {
-      throw new AppError({
-        userMessage: 'Utilisateur non trouvé',
-        statusCode: 404,
-      });
-    }
-    return userMapper.toDTO(user);
-  }
 }
