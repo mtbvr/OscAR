@@ -5,6 +5,7 @@ import { AuthRequestDTO } from "../../common-lib/dto/auth/AuthRequestDTO.js";
 import { AuthResponseDTO } from "../../common-lib/dto/auth/AuthResponseDTO.js";
 import { generateToken } from "../../common-lib/security/auth.js";
 import bcrypt from "bcrypt";
+import AppError from "../../common-lib/errors/AppError.js";
 
 
 const userRepository = new UserRepository();
@@ -12,15 +13,30 @@ const userRepository = new UserRepository();
 export class AuthServiceImpl implements AuthService {
 
     async connectUser(userData: AuthRequestDTO): Promise<AuthResponseDTO & { token: string }> {
-    const user = await userRepository.findByCredentials(userData.email);
-    if (!user) {
-        throw new Error("INVALID_CREDENTIALS");
-    }
+        let user;
+        try {
+            user = await userRepository.findByCredentials(userData.email);
+        } catch (err: any) {
+            throw new AppError({
+                userMessage: 'Problème de connexion à la base de données',
+                statusCode: 503,
+            });
+        }
 
-    const isValid = await bcrypt.compare(userData.password, user.password);
-    if (!isValid) {
-        throw new Error("INVALID_CREDENTIALS");
-    }
+        if (!user) {
+            throw new AppError({
+                userMessage: 'Identifiants invalides',
+                statusCode: 401,
+            });
+        }
+
+        const isValid = await bcrypt.compare(userData.password, user.password);
+        if (!isValid) {
+            throw new AppError({
+                userMessage: 'Identifiants invalides',
+                statusCode: 401,
+            });
+        }
 
     const userDTO: AuthResponseDTO = authMapper.toResponseAuthDTO(user);
     const token = await generateToken(userDTO);
