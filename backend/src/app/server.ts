@@ -4,6 +4,7 @@ import cors from 'cors';
 import usersRoutes from '../routes/UsersRoutes.js';
 import authRoutes from '../routes/AuthRoutes.js';
 import cookieParser from "cookie-parser";
+import errorHandler from '../common-lib/errors/ErrorHandler.js';
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.use(cookieParser());
 
 app.use('/api', usersRoutes)
 app.use('/api', authRoutes);
+
+app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

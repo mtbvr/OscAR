@@ -1,6 +1,7 @@
 import { UsersService } from "../UsersService.js";
 import { UserRepository } from "../../common-lib/repositories/UsersRepository.js";
 import { userMapper } from "../../mapper/UsersMapper.js";
+import AppError from "../../common-lib/errors/AppError.js";
 
 const userRepository = new UserRepository();
 
@@ -11,7 +12,30 @@ export class UsersServiceImpl implements UsersService {
   }
 
   async createUser(userData: any) {
-    const newUser = await userRepository.create(userData);
-    return userMapper.toDTONewUser(newUser);
+    try {
+      const newUser = await userRepository.create(userData);
+      return userMapper.toDTONewUser(newUser);
+    } catch (error: any) {
+      if (error.code === '23505') { // Unique violation error code for PostgreSQL
+        throw new AppError({
+          userMessage: 'Un utilisateur avec cet email existe déjà',
+          statusCode: 409,
+      });      }
+      throw new AppError({
+        userMessage: 'Erreur lors de la création de l\'utilisateur',
+        statusCode: 500,
+      });    
+    }
+  }
+
+  async getUserById(userId: string) {
+    const user =  await userRepository.findById(userId);
+    if (!user) {
+      throw new AppError({
+        userMessage: 'Utilisateur non trouvé',
+        statusCode: 404,
+      });
+    }
+    return userMapper.toDTO(user);
   }
 }

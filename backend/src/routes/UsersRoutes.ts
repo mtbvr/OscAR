@@ -10,4 +10,6 @@ usersRoutes.get("/users", authMiddleware, usersController.getAll);
 
 usersRoutes.post("/users", usersController.createUser);
 
+usersRoutes.get("/users/:id", usersController.getUserById);
+
 export default usersRoutes;

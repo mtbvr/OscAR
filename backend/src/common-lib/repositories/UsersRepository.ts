@@ -31,4 +31,15 @@ export class UserRepository  {
 
     return result.rows[0];
   }
+  
+  async findById(userId: string): Promise<UserEntity | null> {
+    const result = await pool.query(
+      "SELECT * FROM users WHERE id = $1",
+      [userId]
+    );
+    if (result.rowCount === 0) {
+      return null;
+    }
+    return result.rows[0];
+  }
 };

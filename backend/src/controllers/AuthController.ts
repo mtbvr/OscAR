@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AuthServiceImpl } from "../services/impl/AuthServiceImpl.js";
 import { AuthRequestDTO } from "../common-lib/dto/auth/AuthRequestDTO.js";
+import AppError from "../common-lib/errors/AppError.js";
 
 export class AuthController {
 
@@ -10,18 +11,19 @@ export class AuthController {
     this.authService = new AuthServiceImpl();
   }
 
-  async authentificateUser(req: Request, res: Response) {
+  async authentificateUser(req: Request, res: Response, next: any) {
     try {
       const authRequest: AuthRequestDTO = req.body;
 
-      if (!authRequest.email || !authRequest.password) {
-        return res.status(400).json({ error: "Missing credentials" });
-      }
+      const validationItems = [] as any[];
+      if (!authRequest.email) validationItems.push({ field: 'email', message: 'Email requis' });
+      if (!authRequest.password) validationItems.push({ field: 'password', message: 'Mot de passe requis' });
+      if (validationItems.length) throw new AppError({ userMessage: 'Données invalides', details: validationItems, statusCode: 400 });
 
       const result = await this.authService.connectUser(authRequest);
 
       if (!result) {
-        return res.status(401).json({ error: "Invalid credentials" });
+        throw new AppError({ userMessage: 'Identifiants invalides', statusCode: 401 });
       }
 
       res.cookie("token", result.token, {
@@ -34,11 +36,8 @@ export class AuthController {
       const { token, ...user } = result;
 
       return res.json(user);
-
-
     } catch (err) {
-      console.error("Auth error:", err);
-      return res.status(500).json({ error: "Internal server error" });
+      return next(err);
     }
   }
 
