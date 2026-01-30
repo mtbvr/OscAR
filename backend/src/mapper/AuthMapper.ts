@@ -1,7 +1,7 @@
 import { AuthResponseDTO } from "../common-lib/dto/auth/AuthResponseDTO";
 import { UserEntity } from "../common-lib/entity/UsersEntity";
 
-export const huntMapper = {
+export const authMapper = {
 
   toResponseAuthDTO(entity: UserEntity): AuthResponseDTO {
     return {

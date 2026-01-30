@@ -32,6 +32,7 @@ export default function Authentification() {
 
     try {
       const newUser = await addUser(values);
+      setUser(newUser);
       console.log(newUser)
     } catch (err) {
       console.error("Erreur:", err);
