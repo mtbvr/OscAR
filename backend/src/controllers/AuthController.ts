@@ -13,6 +13,7 @@ export class AuthController {
 
   async authentificateUser(req: Request, res: Response, next: any) {
     try {
+      console.log("Authenticating user");
       const authRequest: AuthRequestDTO = req.body;
 
       const validationItems = [] as any[];
@@ -34,7 +35,7 @@ export class AuthController {
         });
 
       const { token, ...user } = result;
-
+      console.log("User authenticated", user);
       return res.json(user);
     } catch (err) {
       return next(err);
@@ -42,10 +43,12 @@ export class AuthController {
   }
 
   async getCurrentUser(req: Request, res: Response) {
-     return res.json(req.user);
+      console.log("Getting current user", req.user);
+      return res.json(req.user);
   }
 
  async logoutUser(req: Request, res: Response) {
+    console.log("Logging out user", req.user);
     res.clearCookie("token", {
         httpOnly: true,
         secure: true,
