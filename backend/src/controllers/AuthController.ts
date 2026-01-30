@@ -19,12 +19,12 @@ export class AuthController {
       const validationItems = [] as any[];
       if (!authRequest.email) validationItems.push({ field: 'email', message: 'Email requis' });
       if (!authRequest.password) validationItems.push({ field: 'password', message: 'Mot de passe requis' });
-      if (validationItems.length) throw new AppError({ userMessage: 'Données invalides', details: validationItems, statusCode: 400 });
+      if (validationItems.length) throw new AppError({ userMessage: 'Données invalides', details: validationItems, route: req.originalUrl, statusCode: 400 });
 
       const result = await this.authService.connectUser(authRequest);
 
       if (!result) {
-        throw new AppError({ userMessage: 'Identifiants invalides', statusCode: 401 });
+        throw new AppError({ userMessage: 'Identifiants invalides', statusCode: 401, route: req.originalUrl });
       }
 
       res.cookie("token", result.token, {
