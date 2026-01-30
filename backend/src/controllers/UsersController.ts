@@ -9,25 +9,24 @@ export class UsersController  {
     this.usersService = new UsersServiceImpl();
   }
 
-  async getAll(req: Request, res: Response) {
+  async getAll(req: Request, res: Response, next: any) {
     try {
+      console.log("Getting all users");
       const users = await this.usersService.getAllUsers();
-      res.json(users);
+      res.status(200).json(users);
     } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Internal server error" });
+      next(err);
     }
   }
 
-  async createUser(req: Request, res: Response) {
+  async createUser(req: Request, res: Response, next: any) {
     try {
+      console.log("Creating user");
       const userData = req.body;
       const newUser = await this.usersService.createUser(userData);
       res.status(201).json(newUser);
     } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Internal server error" });
+      next(err);
     }
   }
-
 };

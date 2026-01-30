@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { jwtVerify } from "jose";
 import { AuthResponseDTO } from "../dto/auth/AuthResponseDTO";
+import AppError from "../errors/AppError";
 
 export async function authMiddleware(
   req: Request,
@@ -10,7 +11,10 @@ export async function authMiddleware(
   const token = req.cookies?.token;
 
   if (!token) {
-    return res.status(401).json({ error: "NO_TOKEN" });
+    return next(new AppError({
+      userMessage: 'Token d\'authentification manquant',
+      statusCode: 401,
+    }));
   }
 
   try {
@@ -21,6 +25,9 @@ export async function authMiddleware(
 
     next();
   } catch (err) {
-    return res.status(401).json({ error: "INVALID_TOKEN" });
+    return next(new AppError({
+      userMessage: 'Token d\'authentification invalide',
+      statusCode: 401,
+    }));
   }
 }
