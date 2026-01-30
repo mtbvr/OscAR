@@ -1,4 +1,3 @@
-import { create } from "domain";
 import { pool } from "../config/database.js";
 import { UserEntity } from "../entity/UsersEntity.js";
 import bcrypt from "bcrypt";
