@@ -1,4 +1,5 @@
 import { pool } from "../config/database.js";
+import { NewUserRequestDTO } from "../dto/users/NewUserRequestDTO.js";
 import { UserEntity } from "../entity/UsersEntity.js";
 import bcrypt from "bcrypt";
 
@@ -8,12 +9,11 @@ export class UserRepository  {
     return result.rows;
   }
 
-  async create(userData: any): Promise<UserEntity> {
-    const { email, username, password } = userData;
-    const hashedPassword = await bcrypt.hash(password, 10);
+  async create(userData: NewUserRequestDTO): Promise<UserEntity> {
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
     const result = await pool.query(
       "INSERT INTO users (email, username, password) VALUES ($1, $2, $3) RETURNING id, username",
-      [email, username, hashedPassword]
+      [userData.email, userData.username, hashedPassword]
     );
     return result.rows[0];
   }
