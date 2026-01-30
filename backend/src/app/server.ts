@@ -5,6 +5,7 @@ import usersRoutes from '../routes/UsersRoutes.js';
 import authRoutes from '../routes/AuthRoutes.js';
 import cookieParser from "cookie-parser";
 import errorHandler from '../common-lib/errors/ErrorHandler.js';
+import AppError from '../common-lib/errors/AppError.js';
 
 const app = express();
 
@@ -18,6 +19,14 @@ app.use(cookieParser());
 
 app.use('/api', usersRoutes)
 app.use('/api', authRoutes);
+
+// Toutes les autres routes non définies
+app.use((req, res, next) => {
+  next(new AppError({
+    userMessage: 'Route non trouvée',
+    statusCode: 404,
+  }));
+});
 
 app.use(errorHandler);
 
