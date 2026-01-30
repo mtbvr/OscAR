@@ -2,13 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import AppError from './AppError';
 
 export function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
-  // Stack log back
-  console.error('Error caught by errorHandler:', { name: err?.name, message: err?.message, stack: err?.stack });
 
   // Erreurs connues de type AppError
   if (err instanceof AppError) {
     const clientPayload = err.toClient();
+    console.error("Error encountered:", err.userMessage || err.message, err.details || '');
     return res.status(err.statusCode).json({ message: clientPayload.message, statusCode: clientPayload.statusCode, details: clientPayload.details });
+  } else {
+    console.error('Unhandled error:', err);
   }
 
   // Pour les erreurs non gérées, déterminer si c'est une erreur de base de données
