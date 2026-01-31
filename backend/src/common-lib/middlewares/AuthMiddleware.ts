@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { jwtVerify } from "jose";
 import { AuthResponseDTO } from "../dto/auth/AuthResponseDTO";
-import AppError from "../errors/AppError";
+import AppError from "../errors/AppError.js";
 import { RoleEnum } from "../enum/roleEnum.js";
 
 export async function authMiddleware(
