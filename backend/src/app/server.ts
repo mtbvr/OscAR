@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser';
 import { errorHandler, errorHandlerBackend } from '../common-lib/errors/ErrorHandler.js';
 import AppError from '../common-lib/errors/AppError.js';
 import { runMigrations } from '../common-lib/config/runMigrations.js';
-
+import { RoleEnum } from '../common-lib/enum/roleEnum.js';
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -25,7 +25,7 @@ app.use('/api', usersRoutes);
 app.use('/api', authRoutes);
 
 // Routes admin protégées par le middleware requireRole
-app.use('/api/admin', requireRole('ADMIN'), adminRoutes);
+app.use('/api/admin', requireRole(RoleEnum.ADMIN), adminRoutes);
 
 // Routes non définies
 app.use((req, res, next) => {
