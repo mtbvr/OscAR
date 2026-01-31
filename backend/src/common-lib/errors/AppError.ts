@@ -8,14 +8,16 @@ export class AppError extends Error {
   public readonly statusCode: number;
   public readonly userMessage: string;
   public readonly details?: any;
+  public readonly route?: string;
 
-  constructor({ userMessage, statusCode = 400, details}: AppErrorParams) {
+  constructor({ userMessage, statusCode = 400, details, route}: AppErrorParams & { route?: string }) {
       super();
     Object.setPrototypeOf(this, new.target.prototype);
     this.name = this.constructor.name;
     this.statusCode = statusCode;
     this.userMessage = userMessage;
     this.details = details;
+    this.route = route;
 
     Error.captureStackTrace?.(this, this.constructor);
   }

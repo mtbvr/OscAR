@@ -6,7 +6,7 @@ export function errorHandler(err: any, req: Request, res: Response, next: NextFu
   // Erreurs connues de type AppError
   if (err instanceof AppError) {
     const clientPayload = err.toClient();
-    console.error("Error encountered:", err.userMessage || err.message, err.details || '');
+    console.error("Error encountered: \n", err.userMessage || err.message, err.details || '', err.route ? `on route ${err.route}` : '');
     return res.status(err.statusCode).json({ message: clientPayload.message, statusCode: clientPayload.statusCode, details: clientPayload.details });
   } else {
     console.error('Unhandled error:', err);
@@ -23,4 +23,12 @@ export function errorHandler(err: any, req: Request, res: Response, next: NextFu
   return res.status(status).json({ message: clientMessage, statusCode: status });
 }
 
-export default errorHandler;
+export function errorHandlerBackend(err: any) {
+  // Erreurs connues de type AppError
+  if (err instanceof AppError) {  
+    console.error("Backend Error encountered: \n", err.userMessage || err.message, err.details || '');
+  } else {
+    console.error('Backend Unhandled error:', err);
+  }
+}
+export default { errorHandler, errorHandlerBackend };
