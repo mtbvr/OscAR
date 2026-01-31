@@ -6,6 +6,6 @@ const huntsRoutes = Router();
 
 const huntsController = new HuntsController();
 
-huntsRoutes.post("/hunt", authMiddleware, huntsController.createHunt);
+huntsRoutes.post("/hunt", authMiddleware, (req, res, next) => huntsController.createHunt(req, res, next));
 
 export default huntsRoutes;

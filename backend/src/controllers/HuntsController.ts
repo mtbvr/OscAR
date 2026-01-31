@@ -9,7 +9,7 @@ export class HuntsController  {
     this.huntsService = new HuntServiceImpl();
   }
 
-  async createHunt(req: Request, res: Response, next: NextFunction) {
+  async createHunt(req: Request, res: Response, next: any) {
     try {
       const huntData = req.body;
       const newHunt = await this.huntsService.createHunt(huntData);

@@ -6,7 +6,7 @@ export class HuntRepository {
 
     async create (huntData: CreateHuntRequestDTO): Promise<HuntEntity> {
         const result = await pool.query(
-            "INSERT INTO hunts (title, description, creator_id, difficulty_id, points, latitude, longitude, picture_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
+            "INSERT INTO hunts (title, description, creator_id, difficulty_id, points, latitude, longitude, picture_path) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
             [
                 huntData.title,
                 huntData.description,
