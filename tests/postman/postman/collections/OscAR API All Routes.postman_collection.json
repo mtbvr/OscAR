@@ -1,0 +1,297 @@
+{
+  "info": {
+    "_postman_id": "4dd27899-ebd5-4285-96f7-3b5b82adaca5",
+    "name": "OscAR API All Routes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "id": "23d532dc-7820-4c96-a6fd-5658ffc71e5f",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register",
+          "id": "dcd07d8f-27d5-4aae-ba1a-215c97443943",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/auth/registersssssss",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "auth",
+                "registersssssss"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "e723ba16-573c-4e19-ac52-6ad2724b31af"
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "id": "f6dd1afc-9824-49d7-8b20-4310ca0432d7",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User By ID",
+          "id": "158ba7e9-b217-4870-808e-e97837b32224",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/users/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "users",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create User",
+          "id": "216d5923-6fa0-4599-be5e-057a4731066d",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "c41e58d0-023a-4e07-b821-955b109eed1e"
+    },
+    {
+      "name": "Step",
+      "item": [
+        {
+          "name": "Get All Steps",
+          "id": "c6dcbcd5-66b2-401b-a33c-f351f4c3aee6",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/step",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "step"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Step",
+          "id": "9fa67556-2345-4fdc-9cfd-fd7b318350ee",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"huntId\": 1,\n  \"description\": \"Première étape\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/step",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "step"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "c11a912c-395a-44dd-94ef-7e2ca042b65e"
+    },
+    {
+      "name": "Index",
+      "item": [
+        {
+          "name": "Get All Indexes",
+          "id": "211278b5-78ec-40a4-9ee7-16c15ccab927",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/index",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "index"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Index",
+          "id": "1b42eec4-f320-4b4e-86ff-4a94b793a09c",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Nouvel index\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/index",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "index"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "fc33c8ec-6019-4fe0-a544-e518ca6be2a3"
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get Admin Data",
+          "id": "2a8552eb-09e6-4428-9f4c-a5269d57d50e",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/admin",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "api",
+                "admin"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "3b425263-27ad-4fcd-a34e-68b1302e1092"
+    }
+  ]
+}
