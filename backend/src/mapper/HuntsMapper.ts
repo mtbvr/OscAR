@@ -6,7 +6,7 @@ export const huntMapper = {
   toCreateResponseDto(entity: HuntEntity): CreateHuntResponseDTO {
     return {
       id: entity.id,
-      name: entity.name
+      name: entity.title
     };
   },
 

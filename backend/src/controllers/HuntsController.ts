@@ -1,21 +1,22 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import { HuntServiceImpl } from "../services/impl/HuntServiceImpl.js";
 
 export class HuntsController  {
 
-  private huntsService: HuntsServiceImpl;
+  private huntsService: HuntServiceImpl;
 
   constructor() {
-    this.huntsService = new HuntsServiceImpl();
+    this.huntsService = new HuntServiceImpl();
   }
 
-  async createHunt(req: Request, res: Response) {
+  async createHunt(req: Request, res: Response, next: NextFunction) {
     try {
       const huntData = req.body;
-      const newHunt = await this.huntsService.createUser(huntData);
+      const newHunt = await this.huntsService.createHunt(huntData);
       res.status(201).json(newHunt);
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal server error" });
+      next(err);
     }
   }
 

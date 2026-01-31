@@ -1,9 +1,14 @@
 export interface HuntEntity {
   id: number;
-  name: string;
+  title: string;
   description: string;
-  id_creator: number
-  //TODO Add missing informations
+  creator_id: number;
+  difficulty_id: number;
+  isActive: boolean;
+  points: number;
+  latitude: number;
+  longitude: number;
+  picture_path: string;
   created_at: Date;
   updated_at: Date;
 }
