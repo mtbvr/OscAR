@@ -3,13 +3,18 @@ import 'dotenv/config';
 import cors from 'cors';
 import usersRoutes from '../routes/UsersRoutes.js';
 import authRoutes from '../routes/AuthRoutes.js';
-import cookieParser from "cookie-parser";
-import errorHandler from '../common-lib/errors/ErrorHandler.js';
+import adminRoutes from '../routes/AdminRoutes.js';
+import { requireRole } from '../common-lib/middlewares/AuthMiddleware.js';
+import cookieParser from 'cookie-parser';
+import { errorHandler, errorHandlerBackend } from '../common-lib/errors/ErrorHandler.js';
 import AppError from '../common-lib/errors/AppError.js';
 import huntsRoutes from '../routes/HuntRoutes.js';
 import stepsRoutes from '../routes/StepRoutes.js';
 
+import { runMigrations } from '../common-lib/config/runMigrations.js';
+import { RoleEnum } from '../common-lib/enum/roleEnum.js';
 const app = express();
+const port = process.env.PORT || 5000;
 
 app.use(cors({
   origin: process.env.FRONT_URL,
@@ -24,17 +29,40 @@ app.use('/api', authRoutes);
 app.use('/api', huntsRoutes);
 app.use('/api', stepsRoutes);
 
-// Toutes les autres routes non définies
+// Routes admin protégées par le middleware requireRole
+app.use('/api/admin', requireRole(RoleEnum.ADMIN), adminRoutes);
+
+// Routes non définies
 app.use((req, res, next) => {
   next(new AppError({
     userMessage: 'Route non trouvée',
+    route: req.originalUrl,
     statusCode: 404,
   }));
 });
 
 app.use(errorHandler);
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Backend listening on port ${port}`);
-});
+(async () => {
+  let migrationError: AppError | null = null;
+
+  try {
+    console.log('[BOOT] Running migrations...');
+    await runMigrations();
+    console.log('[BOOT] Migrations finished');
+  } catch (err) {
+    migrationError = new AppError({
+      userMessage: 'Échec des migrations de la base de données',
+      statusCode: 500,
+      details: err,
+    });
+  }
+
+  app.listen(port, () => {
+    console.log(`[BOOT] Backend listening on port ${port}`);
+
+    if (migrationError) {
+      errorHandlerBackend(migrationError);
+    }
+  });
+})();

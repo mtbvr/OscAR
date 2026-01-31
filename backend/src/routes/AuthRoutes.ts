@@ -8,7 +8,7 @@ const authController = new AuthController();
 
 authRoutes.post('/auth/login', (req, res, next) => authController.authentificateUser(req, res, next));
 
-authRoutes.get('/auth/me', authMiddleware, (req, res, next) => authController.getCurrentUser(req, res));
+authRoutes.get('/auth/me', authMiddleware, (req, res) => authController.getCurrentUser(req, res));
 
-authRoutes.post('/auth/logout', authMiddleware, (req, res, next) => authController.logoutUser(req, res));
+authRoutes.post('/auth/logout', authMiddleware, (req, res) => authController.logoutUser(req, res));
 export default authRoutes;
