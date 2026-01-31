@@ -16,6 +16,7 @@ export class AuthServiceImpl implements AuthService {
         let user;
         try {
             user = await userRepository.findByCredentials(userData.email);
+            console.log(user)
         } catch (err: any) {
             throw new AppError({
                 userMessage: 'Problème de connexion à la base de données',

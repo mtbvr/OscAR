@@ -20,7 +20,14 @@ export class UserRepository  {
 
   async findByCredentials(email: string): Promise<UserEntity | null> {
     const result = await pool.query(
-      "SELECT * FROM users WHERE email = $1",
+      `SELECT 
+          u.*,
+          COALESCE(json_agg(r.name) FILTER (WHERE r.name IS NOT NULL), '[]') AS rights
+      FROM users u
+      LEFT JOIN right_user ru ON ru.user_id = u.id
+      LEFT JOIN rights r ON r.id = ru.right_id
+      WHERE u.email = $1
+      GROUP BY u.id`,
       [email]
     );
 
@@ -33,12 +40,22 @@ export class UserRepository  {
   
   async findById(userId: string): Promise<UserEntity | null> {
     const result = await pool.query(
-      "SELECT * FROM users WHERE id = $1",
+      `SELECT 
+          u.*,
+          COALESCE(json_agg(r.name) FILTER (WHERE r.name IS NOT NULL), '[]') AS rights
+      FROM users u
+      LEFT JOIN right_user ru ON ru.user_id = u.id
+      LEFT JOIN rights r ON r.id = ru.right_id
+      WHERE u.id = $1
+      GROUP BY u.id`,
       [userId]
     );
+
     if (result.rowCount === 0) {
       return null;
     }
-    return result.rows[0];
+
+    const user = result.rows[0];
+    return user;
   }
-};
+}

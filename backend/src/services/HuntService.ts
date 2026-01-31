@@ -2,5 +2,5 @@ import { CreateHuntRequestDTO } from "../common-lib/dto/hunt/CreateHuntRequestDT
 import { CreateHuntResponseDTO } from "../common-lib/dto/hunt/CreateHuntResponseDTO";
 
 export interface HuntService {
-  createHunt(userData: CreateHuntRequestDTO): Promise<CreateHuntResponseDTO>;
+  createHunt(huntData: CreateHuntRequestDTO): Promise<CreateHuntResponseDTO>;
 }

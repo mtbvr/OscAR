@@ -23,4 +23,16 @@ export class IndexRepository {
 
         return insertResult.rows[0];
     }
+
+    async create(indexData: { name?: string; index: number; hunt_id: number; }): Promise<IndexEntity> {
+        const result = await pool.query(
+            "INSERT INTO index (name, index, hunt_id) VALUES ($1, $2, $3) RETURNING *",
+            [
+                indexData.name,
+                indexData.index,
+                indexData.hunt_id
+            ]
+        )
+        return result.rows[0];
+    }
 }

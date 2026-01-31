@@ -6,8 +6,8 @@ export const authMapper = {
   toResponseAuthDTO(entity: UserEntity): AuthResponseDTO {
     return {
         id: entity.id,
-        username: entity.username //to delete
-        //role: string,
+        username: entity.username, //to delete
+        rights: entity.rights
         //cultural_center: number,
     };
   },

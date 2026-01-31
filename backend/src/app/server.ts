@@ -13,6 +13,8 @@ import stepsRoutes from '../routes/StepRoutes.js';
 
 import { runMigrations } from '../common-lib/config/runMigrations.js';
 import { RoleEnum } from '../common-lib/enum/roleEnum.js';
+import { Role } from 'node-appwrite';
+import indexRoutes from '../routes/IndexRoutes.js';
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -26,8 +28,9 @@ app.use(cookieParser());
 
 app.use('/api', usersRoutes);
 app.use('/api', authRoutes);
-app.use('/api', huntsRoutes);
-app.use('/api', stepsRoutes);
+app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), huntsRoutes);
+app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), stepsRoutes);
+app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), indexRoutes);
 
 // Routes admin protégées par le middleware requireRole
 app.use('/api/admin', requireRole(RoleEnum.ADMIN), adminRoutes);
