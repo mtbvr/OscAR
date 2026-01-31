@@ -13,7 +13,7 @@ export async function authMiddleware(
 
   if (!token) {
     return next(new AppError({
-      userMessage: 'Token d\'authentification manquant',
+      userMessage: 'Utilisateur non connecté',
       statusCode: 401,
       route: req.originalUrl,
     }));
@@ -28,7 +28,7 @@ export async function authMiddleware(
     next();
   } catch (err) {
     return next(new AppError({
-      userMessage: 'Token d\'authentification invalide',
+      userMessage: 'Utilisateur non connecté',
       statusCode: 401,
       route: req.originalUrl,
     }));
@@ -46,7 +46,7 @@ export function requireRole(required: RoleEnum | RoleEnum[]) {
 
     if (!token) {
       return next(new AppError({
-        userMessage: 'Token d\'authentification manquant',
+        userMessage: 'Utilisateur non connecté',
         statusCode: 401,
         route: req.originalUrl,
       }));
@@ -62,7 +62,7 @@ export function requireRole(required: RoleEnum | RoleEnum[]) {
 
       if (!userRole) {
         return next(new AppError({
-          userMessage: 'Votre token ne permet pas de vérifier votre rôle',
+          userMessage: 'Votre jeton d\'authentification ne permet pas de vérifier votre rôle',
           statusCode: 403,
           route: req.originalUrl,
         }));
@@ -79,7 +79,7 @@ export function requireRole(required: RoleEnum | RoleEnum[]) {
       return next();
     } catch (err) {
       return next(new AppError({
-        userMessage: 'Token d\'authentification invalide',
+        userMessage: 'Jeton d\'authentification invalide',
         statusCode: 401,
         route: req.originalUrl,
       }));
