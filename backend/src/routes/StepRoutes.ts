@@ -6,6 +6,6 @@ const stepsRoutes = Router();
 
 const stepsController = new StepsController();
 
-stepsRoutes.post("/hunt", authMiddleware, stepsController.createStep);
+stepsRoutes.post("/step", authMiddleware, (req, res, next) => stepsController.createStep(req, res, next));
 
 export default stepsRoutes;

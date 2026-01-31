@@ -6,7 +6,7 @@ export const stepMapper = {
   toCreateResponseDto(entity: StepEntity): CreateStepResponseDTO {
     return {
       id: entity.id,
-      name: entity.name
+      title: entity.title
     };
   },
 

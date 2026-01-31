@@ -9,14 +9,14 @@ export class StepsController  {
     this.stepService = new StepServiceImpl();
   }
 
-  async createStep(req: Request, res: Response) {
+  async createStep(req: Request, res: Response, next: any) {
     try {
       const stepData = req.body;
       const newStep = await this.stepService.createStep(stepData);
       res.status(201).json(newStep);
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal server error" });
+      next(err);
     }
   }
 

@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import errorHandler from '../common-lib/errors/ErrorHandler.js';
 import AppError from '../common-lib/errors/AppError.js';
 import huntsRoutes from '../routes/HuntRoutes.js';
+import stepsRoutes from '../routes/StepRoutes.js';
 
 const app = express();
 
@@ -18,9 +19,10 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api', usersRoutes)
+app.use('/api', usersRoutes);
 app.use('/api', authRoutes);
-app.use('/api', huntsRoutes)
+app.use('/api', huntsRoutes);
+app.use('/api', stepsRoutes);
 
 // Toutes les autres routes non définies
 app.use((req, res, next) => {

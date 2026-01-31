@@ -1,9 +1,12 @@
 export interface StepEntity {
   id: number;
-  name: string;
+  title: string;
   description: string;
-  id_hunt: number
-  //TODO Add missing informations
+  points: number;
+  latitude: number;
+  longitude: number;
+  hunt_id: number;
+  index_id: number;
   created_at: Date;
   updated_at: Date;
 }
