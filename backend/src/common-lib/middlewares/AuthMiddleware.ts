@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { jwtVerify } from "jose";
 import { AuthResponseDTO } from "../dto/auth/AuthResponseDTO";
 import AppError from "../errors/AppError";
+import { RoleEnum } from "../enum/roleEnum.js";
 
 export async function authMiddleware(
   req: Request,
@@ -35,8 +36,9 @@ export async function authMiddleware(
 }
 
 // Factory middleware to require one or more roles.
-// Usage: app.get('/admin', requireRole('ADMIN'), handler)
-export function requireRole(required: string | string[]) {
+// Usage: app.get('/admin', requireRole(RoleEnum.ADMIN), handler)
+// Usage: app.get('/manager', requireRole([RoleEnum.ADMIN, RoleEnum.HUNT_MANAGER]), handler)
+export function requireRole(required: RoleEnum | RoleEnum[]) {
   const requiredRoles = Array.isArray(required) ? required : [required];
 
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -66,7 +68,7 @@ export function requireRole(required: string | string[]) {
         }));
       }
 
-      if (!requiredRoles.includes(userRole)) {
+      if (!requiredRoles.includes(userRole as RoleEnum)) {
         return next(new AppError({
           userMessage: 'Accès refusé: rôle insuffisant',
           statusCode: 403,

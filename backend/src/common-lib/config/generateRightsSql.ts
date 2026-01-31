@@ -1,5 +1,16 @@
--- Create table rights if it doesn't exist
+import { RoleEnum } from '../enum/roleEnum.js';
 
+/**
+ * Génère dynamiquement le SQL pour les migrations basé sur l'enum RoleEnum
+ */
+export function generateRightsSql(): string {
+  const roles = Object.values(RoleEnum);
+  
+  const valuesList = roles
+    .map(role => `    ('${role}')`)
+    .join(',\n');
+
+  return `-- Create table rights if it doesn't exist
 CREATE TABLE IF NOT EXISTS rights (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(255) NOT NULL UNIQUE,
@@ -26,7 +37,7 @@ ON right_user (user_id, right_id);
 
 -- Insert default rights if they don't exist
 INSERT INTO rights (name) VALUES
-    ('ADMIN'),
-    ('HUNT_MANAGER'),
-    ('CULTURAL_CENTER_MANAGER')
+${valuesList}
 ON CONFLICT (name) DO NOTHING;
+`;
+}

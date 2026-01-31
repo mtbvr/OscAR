@@ -1,22 +1,21 @@
-import fs from 'fs/promises';
-import path from 'path';
 import { pool } from './database.js';
+import { generateRightsSql } from './generateRightsSql.js';
 
 export async function runMigrations(): Promise<void> {
-  const sqlPath = path.resolve(
-    process.cwd(),
-    'src',
-    'common-lib',
-    'config',
-    'rights.sql'
-  );
-
-    const sql = await fs.readFile(sqlPath, 'utf8');
+  try {
+    // Générer le SQL dynamiquement à partir de l'enum RoleEnum
+    const sql = generateRightsSql();
+    
     if (!sql.trim()) {
-      console.warn('[MIGRATION] rights.sql is empty, skipping');
+      console.warn('[MIGRATION] Generated SQL is empty, skipping');
       return;
     }
+    
     // PostgreSQL accepts multiple statements in one query
     await pool.query(sql);
     console.log('[MIGRATION] rights.sql executed successfully');
+  } catch (error) {
+    console.error('[MIGRATION] Error running migrations:', error);
+    throw error;
+  }
 }
