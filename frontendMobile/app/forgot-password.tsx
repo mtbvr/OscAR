@@ -6,7 +6,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from 'expo-asset';
 import { theme, globalStyles } from '../constants/theme';
-import { BACKEND_URL } from '@env';
 
 // Forgot Password screen 
 
@@ -26,14 +25,6 @@ export default function ForgotPasswordScreen() {
 
         try {
             setLoading(true);
-
-            await fetch(`${BACKEND_URL}/api/auth/forgot-password`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email }),
-            });
 
             router.push('/forgot-password-send');
         } catch (error) {
