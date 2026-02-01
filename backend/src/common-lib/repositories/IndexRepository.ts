@@ -1,4 +1,6 @@
 import { pool } from "../config/database";
+import { GetIndexByHuntRequestDTO } from "../dto/index/GetIndexByHuntRequestDTO";
+import { HuntEntity } from "../entity/HuntEntity";
 import { IndexEntity } from "../entity/IndexEntity";
 
 export class IndexRepository {
@@ -34,5 +36,13 @@ export class IndexRepository {
             ]
         )
         return result.rows[0];
+    }
+
+    async getByHuntID(huntId: GetIndexByHuntRequestDTO): Promise<IndexEntity[]> {
+        const result = await pool.query(
+            "SELECT * FROM index WHERE hunt_id = ($1)",
+            [huntId]
+        )
+        return result.rows;
     }
 }

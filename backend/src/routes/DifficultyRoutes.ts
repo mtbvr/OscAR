@@ -6,6 +6,6 @@ const difficultyRoutes = Router();
 
 const difficultyController = new DifficultyController();
 
-difficultyRoutes.get("/users", authMiddleware, (req, res, next) => difficultyController.getAll(req, res, next));
+difficultyRoutes.get("/difficulty", authMiddleware, (req, res, next) => difficultyController.getAll(req, res, next));
 
 export default difficultyRoutes;
