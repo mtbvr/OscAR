@@ -23,12 +23,3 @@ export async function verifyToken(token: string) {
   return await jwtVerify(token, secret);
 }
 
-
-
-// coté front
-
-//import jwtDecode from "jwt-decode";
-
-//const token = localStorage.getItem("token");
-//const user = token ? jwtDecode(token) : null;
-

@@ -12,6 +12,8 @@ export class HuntServiceImpl implements HuntService {
 
     async createHunt(huntData: CreateHuntRequestDTO): Promise<CreateHuntResponseDTO> {
         try {
+            const currentUserId = "1" //TODO get current user id registered in token and put it here
+            huntData.creator_id = currentUserId
             const hunt = await huntRepository.create(huntData);
             const huntDTO: CreateHuntResponseDTO = huntMapper.toCreateResponseDto(hunt);
             return huntDTO;

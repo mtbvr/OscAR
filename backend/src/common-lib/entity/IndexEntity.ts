@@ -1,8 +1,8 @@
 export interface IndexEntity {
-  id: number;
+  id: string;
   name: string;
   index: number;
-  hunt_id: number;
+  hunt_id: string;
   created_at: Date;
   updated_at: Date;
 }

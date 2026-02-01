@@ -1,5 +1,5 @@
 export interface GetIndexByHuntResponseDTO {
-    id: number,
+    id: string,
     name?: string,
     index: number
 }

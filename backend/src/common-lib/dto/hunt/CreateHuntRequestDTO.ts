@@ -1,8 +1,8 @@
 export interface CreateHuntRequestDTO {
     title: string;
     description: string;
-    creator_id: number;
-    difficulty_id: number;
+    creator_id: string;
+    difficulty_id: string;
     points: number;
     latitude: number;
     longitude: number;

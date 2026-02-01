@@ -1,4 +1,4 @@
 export interface CreateHuntResponseDTO {
-    id: number,
+    id: string,
     title: string
 }

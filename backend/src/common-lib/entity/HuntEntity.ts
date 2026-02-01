@@ -1,9 +1,9 @@
 export interface HuntEntity {
-  id: number;
+  id: string;
   title: string;
   description: string;
-  creator_id: number;
-  difficulty_id: number;
+  creator_id: string;
+  difficulty_id: string;
   isActive: boolean;
   points: number;
   latitude: number;

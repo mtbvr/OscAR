@@ -1,5 +1,5 @@
 export interface LightUserDTO {
-  id: number;
+  id: string;
   email: string;
   username: string;
 }

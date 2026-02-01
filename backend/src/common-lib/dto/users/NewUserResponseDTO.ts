@@ -1,4 +1,4 @@
 export interface NewUserResponseDTO {
-  id: number;
+  id: string;
   username: string;
 }

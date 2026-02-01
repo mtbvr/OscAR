@@ -1,5 +1,5 @@
 export interface GetAllDifficultyResponseDTO {
-  id: number;
+  id: string;
   name: string;
   multiplicator: number;
 }

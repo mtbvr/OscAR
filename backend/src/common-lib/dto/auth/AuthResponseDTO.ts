@@ -1,5 +1,5 @@
 export interface AuthResponseDTO {
-    id: number,
+    id: string,
     username: string, //to delete
     rights: string[],
     //cultural_center: number,

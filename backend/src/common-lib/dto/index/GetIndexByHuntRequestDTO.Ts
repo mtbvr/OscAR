@@ -1,3 +1,3 @@
 export interface GetIndexByHuntRequestDTO {
-  hunt_id: number;
+  hunt_id: string;
 }
