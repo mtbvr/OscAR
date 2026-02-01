@@ -76,14 +76,6 @@ export default function ProfilModifyScreen() {
                         </View>
                     </View>
 
-                    {/* Phone Number */}
-                    <View style={{ marginBottom: theme.SPACING.medium }}>
-                        <Text style={[globalStyles.label, { paddingBottom: theme.SPACING.small }]}>Numéro de téléphone</Text>
-                        <View style={theme.INPUT_STYLES.container}>
-                            <TextInput style={[theme.INPUT_STYLES.text, { paddingVertical: theme.SPACING.medium }]} placeholder="0123456789" placeholderTextColor={theme.COLORS.placeholder} keyboardType="phone-pad" />
-                        </View>
-                    </View>
-
                     {/* Save Modifications Button */}
                     <TouchableOpacity activeOpacity={0.7}>
                         <LinearGradient colors={[theme.COLORS.primary, theme.COLORS.secondary]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={[{ width: '100%', alignItems: 'center', justifyContent: 'center', borderRadius: 8 }]}>
