@@ -10,10 +10,9 @@ import { errorHandler, errorHandlerBackend } from '../common-lib/errors/ErrorHan
 import AppError from '../common-lib/errors/AppError.js';
 import huntsRoutes from '../routes/HuntRoutes.js';
 import stepsRoutes from '../routes/StepRoutes.js';
-
+import difficultyRoutes from '../routes/DifficultyRoutes.js';
 import { runMigrations } from '../common-lib/config/runMigrations.js';
 import { RoleEnum } from '../common-lib/enum/roleEnum.js';
-import { Role } from 'node-appwrite';
 import indexRoutes from '../routes/IndexRoutes.js';
 const app = express();
 const port = process.env.PORT || 5000;
@@ -31,11 +30,12 @@ app.use('/api', authRoutes);
 app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), huntsRoutes);
 app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), stepsRoutes);
 app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), indexRoutes);
+app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), difficultyRoutes)
 
 // Routes admin protégées par le middleware requireRole
 app.use('/api/admin', requireRole(RoleEnum.ADMIN), adminRoutes);
 
-// Routes non définies
+// Routes non définies()
 app.use((req, res, next) => {
   next(new AppError({
     userMessage: 'Route non trouvée',
