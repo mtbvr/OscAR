@@ -3,6 +3,6 @@ import { CreateHuntResponseDTO } from "../common-lib/dto/hunt/CreateHuntResponse
 import { GetAllHuntResponseDTO } from "../common-lib/dto/hunt/GetAllHuntResponseDTO.js";
 
 export interface HuntService {
-  createHunt(huntData: CreateHuntRequestDTO): Promise<CreateHuntResponseDTO>;
+  createHunt(huntData: CreateHuntRequestDTO, userId: string): Promise<CreateHuntResponseDTO>;
   getAllHunt(): Promise<GetAllHuntResponseDTO[]>;
 }

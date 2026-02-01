@@ -11,8 +11,9 @@ export class HuntsController  {
 
   async createHunt(req: Request, res: Response, next: any) {
     try {
+      const userId = (req.user as any)?.id;
       const huntData = req.body;
-      const newHunt = await this.huntsService.createHunt(huntData);
+      const newHunt = await this.huntsService.createHunt(huntData, userId);
       res.status(201).json(newHunt);
     } catch (err) {
       console.error(err);
