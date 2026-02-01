@@ -20,4 +20,13 @@ export class HuntsController  {
     }
   }
 
+  async getAllHunt(req: Request, res: Response, next: any) {
+    try {
+      const allHunt = await this.huntsService.getAllHunt();
+    } catch(err) {
+      console.error(err);
+      next(err);
+    }
+  }
+
 };

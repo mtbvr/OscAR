@@ -21,4 +21,9 @@ export class HuntRepository {
         return result.rows[0];
     }
 
+    async getAll(): Promise<HuntEntity[]> {
+        const result = await pool.query("SELECT * FROM hunts")
+        return result.rows
+    }
+
 }
