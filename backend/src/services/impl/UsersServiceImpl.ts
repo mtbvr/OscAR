@@ -21,8 +21,8 @@ export class UsersServiceImpl implements UsersService {
         throw new AppError({
           userMessage: 'Un utilisateur avec cet email existe déjà',
           statusCode: 409,
-      });      
-    }
+        });      
+      }
       throw new AppError({
         userMessage: 'Erreur lors de la création de l\'utilisateur',
         statusCode: 500,

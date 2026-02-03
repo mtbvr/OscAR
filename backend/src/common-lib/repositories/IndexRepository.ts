@@ -52,7 +52,7 @@ export class IndexRepository {
     async getByHuntID(huntId: GetIndexByHuntRequestDTO): Promise<IndexEntity[]> {
         const result = await pool.query(
             "SELECT * FROM index WHERE hunt_id = ($1)",
-            [huntId]
+            [huntId.hunt_id]
         )
         return result.rows;
     }

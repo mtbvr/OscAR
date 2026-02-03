@@ -15,7 +15,7 @@ export class HuntRepository {
                 huntData.points,
                 huntData.latitude,
                 huntData.longitude,
-                huntData.picture_path
+                huntData.picture_path || null
             ]
         )
         return result.rows[0];

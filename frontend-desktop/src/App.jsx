@@ -13,9 +13,9 @@ export default function App() {
   const clearUser = useAuthStore((state) => state.clearUser);
 
   useEffect(() => {
-    currentUser("/auth/me")
-      .then((user) => setUser(user))
-      .catch(() => clearUser());
+  currentUser("/auth/me")
+    .then((user) => setUser(user))
+    .catch(() => clearUser());
   }, []);
 
   return (
@@ -28,9 +28,9 @@ export default function App() {
         <Route
           path="/home"
           element={
-            //<ProtectedRoute>
+            <ProtectedRoute>
               <Home />
-            //</ProtectedRoute>
+            </ProtectedRoute>
           }
         />
 

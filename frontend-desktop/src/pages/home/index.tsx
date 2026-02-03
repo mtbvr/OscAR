@@ -1,86 +1,71 @@
-import { getAllDifficulty } from "../../api/services/difficulty.api";
-import { getAllIndexByHunt } from "../../api/services/index.api";
+import { CreateHuntDto } from "../../api/models/hunts/AddHuntDto";
+import { CreateIndexDto } from "../../api/models/index/AddIndexDto";
+import { CreateStepDto } from "../../api/models/steps/AddStepDto";
 import DynamicForm from "../../common/components/dynamic_form/DynamicForm";
+import { useHomeData } from "./home.data";
+import { useState } from "react";
 
 export default function Home() {
+  const {
+    addHuntFields,
+    addStepFields,
+    addIndexFields,
+    handleAddHunt,
+    handleAddStep,
+    handleAddIndex,
+    setSelectedHuntId
+  } = useHomeData();
 
-  const difficultyData = async() => {getAllDifficulty}
-  const indexByHuntData = async(hunt_id: string) => {getAllIndexByHunt(hunt_id)}
-
-  const addHuntFields = 
-    [
-      { name: "title", label: "Titre de la chasse", type: "text", required: true },
-      { name: "description", label: "Description de la chasse", type: "text", required: true },
-      { name: "points", label: "Points de la chasse", type: "number", required: true },
-      { name: "latitude", label: "Latitude de la chasse", type: "number", required: false},
-      { name: "longitude", label: "Longitude de la chasse", type: "number", required: false},
-      //TODO Create select with all difficulty in options
-    ]
-
-  const addStepFields =
-    [
-      { name: "title", label: "Titre de la chasse", type: "text", required: true },
-      { name: "description", label: "Description de la chasse", type: "text", required: true },
-      { name: "points", label: "Points de la chasse", type: "number", required: true },
-      { name: "latitude", label: "Latitude de la chasse", type: "number", required: false},
-      { name: "longitude", label: "Longitude de la chasse", type: "number", required: false},
-      //TODO Create select with all different hunts in options
-      //TODO Create Boolean button would you add this step on step group ? Yes : Show all hunt index + button add new Index / No : Don't put index_id on body
-    ]
-
-  const addIndexFields =
-    [
-      { name: "name", label: "Nom de l'index", type: "text", required: true },
-      //TODO don't forget to get the hunt_id and send with the request body
-    ]
-
-  const handleAddHunt = async() => {
-    console.log("create hunt")
-  }
-
-  const handleAddStep = async() => {
-    console.log("create step")
-  }
-
-  const handleAddIndex = async() => {
-    console.log("create index")
-  }
+  // 🔥 Reset signals
+  const [resetHuntForm, setResetHuntForm] = useState(0);
+  const [resetIndexForm, setResetIndexForm] = useState(0);
+  const [resetStepForm, setResetStepForm] = useState(0);
 
   return (
     <>
-        <h1>Lootopia</h1>
+      <h1>Lootopia V0.0.1</h1>
 
-        <section>
-          <h2>
-            Ajouter une chasse
-          </h2>
-          <DynamicForm
-            fields={addHuntFields}
-            onSubmit={handleAddHunt}
-            submitLabel="Envoyer"
-          />
-        </section>
+      <section>
+        <h2>Ajouter une chasse</h2>
+        <DynamicForm
+          fields={addHuntFields}
+          onSubmit={async (data: CreateHuntDto) => {
+            await handleAddHunt(data);
+            setResetHuntForm((n) => n + 1); 
+          }}
+          submitLabel="Envoyer"
+          resetSignal={resetHuntForm}
+        />
+      </section>
 
-        <section>
-          <h2>
-            Ajouter un Index à une chasse
-          </h2>
-          <DynamicForm
-            fields={addIndexFields}
-            onSubmit={handleAddIndex}
-            submitLabel="Envoyer"
-          />
-        </section>
+      <section>
+        <h2>Ajouter un Index</h2>
+        <DynamicForm
+          fields={addIndexFields}
+          onSubmit={async (data: CreateIndexDto) => {
+            await handleAddIndex(data);
+            setResetIndexForm((n) => n + 1); 
+          }}
+          submitLabel="Envoyer"
+          resetSignal={resetIndexForm}
+        />
+      </section>
 
-        <section>
-          <h2>Ajouter une étape à une chasse</h2>
-          <DynamicForm
-            fields={addStepFields}
-            onSubmit={handleAddStep}
-            submitLabel="Envoyer"
-          />
-        </section>
-
+      <section>
+        <h2>Ajouter une étape</h2>
+        <DynamicForm
+          fields={addStepFields}
+          onSubmit={async (data: CreateStepDto) => {
+            await handleAddStep(data);
+            setResetStepForm((n) => n + 1); 
+          }}
+          submitLabel="Envoyer"
+          resetSignal={resetStepForm}
+          onFieldChange={(name: string, value: string | number) => {
+            if (name === "hunt_id") setSelectedHuntId(value);
+          }}
+        />
+      </section>
     </>
   );
 }

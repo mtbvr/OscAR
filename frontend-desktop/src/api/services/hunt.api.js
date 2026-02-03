@@ -5,5 +5,5 @@ export function addHunt(huntData) {
 }
 
 export function getAllHunts() {
-  return apiClient('hunt');
+  return apiClient('/hunt');
 }
