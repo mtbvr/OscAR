@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { theme, globalStyles } from '../../constants/theme';
+import '../../utils/ignoreWarnings';
 
 // Maps screen
 
