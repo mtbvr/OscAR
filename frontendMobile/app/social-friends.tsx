@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomNavbar from '@/components/ui/bottom-navbar';
 import { SvgUri } from 'react-native-svg';
 import AddFriends from '../components/add-friends';
+import SectionTitle from '../components/section-title';
 
 // Icon mapping
 const ICONS = {
@@ -50,10 +51,11 @@ export default function SocialFriendsScreen() {
 
             {/* Friends Leaderboard */}
             <View style={{ borderRadius: 8, borderColor: theme.COLORS.border, borderWidth: 1, paddingVertical: theme.SPACING.large, paddingHorizontal: theme.SPACING.medium, marginTop: theme.SPACING.medium }}>
-                <View style={{ flexDirection: 'row', marginBottom: theme.SPACING.large, width: '100%' }}>
-                    <SvgUri uri={getIconUri("trophy.svg")} width={30} height={30} color={theme.COLORS.secondary} />
-                    <Text style={{ marginLeft: theme.SPACING.small, fontSize: theme.FONT_SIZES.subtitle, fontWeight: '700', color: theme.COLORS.textPrimary }}>Classement des Amis</Text>
-                </View>
+                <SectionTitle 
+                    title="Classement des Amis" 
+                    iconUri={getIconUri("trophy.svg")} 
+                    iconColor={theme.COLORS.secondary} 
+                />
                 <Text style={{ fontSize: theme.FONT_SIZES.text, color: theme.COLORS.textSecondary }}>Liste détaillée des amis à venir.</Text>
                 
                 {/* Add friends button */}

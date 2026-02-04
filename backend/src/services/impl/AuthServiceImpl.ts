@@ -1,6 +1,6 @@
 import { AuthService } from "../AuthService.js";
 import { UserRepository } from "../../common-lib/repositories/UsersRepository.js";
-import { userMapper } from "../../mapper/UsersMapper.js";
+import { authMapper } from "../../mapper/AuthMapper.js";
 import { AuthRequestDTO } from "../../common-lib/dto/auth/AuthRequestDTO.js";
 import { AuthResponseDTO } from "../../common-lib/dto/auth/AuthResponseDTO.js";
 import { generateToken } from "../../common-lib/security/auth.js";
@@ -16,6 +16,7 @@ export class AuthServiceImpl implements AuthService {
         let user;
         try {
             user = await userRepository.findByCredentials(userData.email);
+            console.log(user)
         } catch (err: any) {
             throw new AppError({
                 userMessage: 'Problème de connexion à la base de données',
@@ -38,7 +39,7 @@ export class AuthServiceImpl implements AuthService {
             });
         }
 
-    const userDTO: AuthResponseDTO = userMapper.toDTO(user);
+    const userDTO: AuthResponseDTO = authMapper.toResponseAuthDTO(user);
     const token = await generateToken(userDTO);
 
     return {

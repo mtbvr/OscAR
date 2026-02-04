@@ -9,7 +9,7 @@ export async function generateToken(user: AuthResponseDTO) {
   return await new SignJWT({
     sub: user.id.toString(),
     username: user.username, //to delete
-    //role: user.role,
+    rights: user.rights,
     //permissions: user.permissions,
   })
     .setProtectedHeader({ alg: "HS256" })

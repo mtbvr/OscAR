@@ -58,7 +58,7 @@ export function requireRole(required: RoleEnum | RoleEnum[]) {
 
       req.user = payload as unknown as AuthResponseDTO & { role?: string };
 
-      const userRole = (req.user as any)?.role;
+      const userRole = (req.user as any)?.rights;
 
       if (!userRole) {
         return next(new AppError({
@@ -68,13 +68,15 @@ export function requireRole(required: RoleEnum | RoleEnum[]) {
         }));
       }
 
-      if (!requiredRoles.includes(userRole as RoleEnum)) {
+      if (!userRole.some((role: string) => requiredRoles.includes(role as RoleEnum))) {
+        console.log('User role:', userRole);
         return next(new AppError({
           userMessage: 'Accès refusé: rôle insuffisant',
           statusCode: 403,
           route: req.originalUrl,
         }));
       }
+
 
       return next();
     } catch (err) {

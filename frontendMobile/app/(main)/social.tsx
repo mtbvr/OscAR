@@ -8,6 +8,7 @@ import { Asset } from 'expo-asset';
 import { SvgUri } from 'react-native-svg';
 import { TouchableOpacity, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import SectionTitle from '../../components/section-title';
 
 // Icon mapping
 const ICONS = {
@@ -39,20 +40,22 @@ export default function SocialScreen() {
             {/* Friend Requests - Display only if user is authenticated */}
             {isAuthenticated && (
                 <View style={{ borderWidth: 1, borderColor: theme.COLORS.border, borderRadius: 8, backgroundColor: theme.COLORS.background, paddingVertical: theme.SPACING.large, paddingHorizontal: theme.SPACING.medium, marginTop: theme.SPACING.medium }}>
-                    <View style={{ flexDirection: 'row', marginBottom: theme.SPACING.large, width: '100%' }}>
-                        <SvgUri uri={getIconUri("envelope.svg")} width={30} height={30} color={theme.COLORS.success} />
-                        <Text style={{ marginLeft: theme.SPACING.small, fontSize: theme.FONT_SIZES.subtitle, fontWeight: '700', color: theme.COLORS.textPrimary }}>Demandes d'amis (0)</Text>
-                    </View>
+                    <SectionTitle 
+                        title="Demandes d'amis (0)" 
+                        iconUri={getIconUri("envelope.svg")} 
+                        iconColor={theme.COLORS.success} 
+                    />
                     <Text style={{ fontSize: theme.FONT_SIZES.text, color: theme.COLORS.textSecondary }}>Liste des demandes d'amis à venir</Text>
                 </View>
             )}
 
             {/* Friends Leaderboard */}
             <View style={{ borderRadius: 8, borderColor: theme.COLORS.border, borderWidth: 1, paddingVertical: theme.SPACING.large, paddingHorizontal: theme.SPACING.medium, marginTop: theme.SPACING.medium }}>
-                <View style={{ flexDirection: 'row', marginBottom: theme.SPACING.large, width: '100%' }}>
-                    <SvgUri uri={getIconUri("trophy.svg")} width={30} height={30} color={theme.COLORS.secondary} />
-                    <Text style={{ marginLeft: theme.SPACING.small, fontSize: theme.FONT_SIZES.subtitle, fontWeight: '700', color: theme.COLORS.textPrimary }}>Classement des Amis</Text>
-                </View>
+                <SectionTitle 
+                    title="Classement des Amis" 
+                    iconUri={getIconUri("trophy.svg")} 
+                    iconColor={theme.COLORS.secondary} 
+                />
                 {!isAuthenticated ? (
                     <PlaceholderNotConnected
                         icon="group.svg"
@@ -73,9 +76,7 @@ export default function SocialScreen() {
                                 style={[theme.BUTTON_STYLES.default, { width: '100%', alignItems: 'center', justifyContent: 'center', borderRadius: 20, height: 35 }]}
                             >
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: theme.SPACING.small }}>
-                                    <Text style={[{ fontSize: theme.FONT_SIZES.text, color: theme.COLORS.background, fontWeight: '700' }]}>
-                                        Voir plus 
-                                    </Text>
+                                    <Text style={[{ fontSize: theme.FONT_SIZES.text, color: theme.COLORS.background, fontWeight: '700' }]}>Voir plus</Text>
                                     <SvgUri uri={getIconUri("plus.svg")} width={20} height={20} color={theme.COLORS.background} />
                                 </View>
                             </LinearGradient>
@@ -101,9 +102,7 @@ export default function SocialScreen() {
                         style={[theme.BUTTON_STYLES.default, { width: '100%', alignItems: 'center', justifyContent: 'center', borderRadius: 20, height: 35 }]}
                     >
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: theme.SPACING.small }}>
-                            <Text style={[{ fontSize: theme.FONT_SIZES.text, color: theme.COLORS.background, fontWeight: '700' }]}>
-                                Voir plus 
-                            </Text>
+                            <Text style={[{ fontSize: theme.FONT_SIZES.text, color: theme.COLORS.background, fontWeight: '700' }]}>Voir plus</Text>
                             <SvgUri uri={getIconUri("plus.svg")} width={20} height={20} color={theme.COLORS.background} />
                         </View>
                     </LinearGradient>
