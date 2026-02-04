@@ -98,7 +98,7 @@ export default function ProfilModifyScreen() {
             {/* Modal for ModifyPassword */}
             <Modal visible={showModifyPassword} animationType="fade" transparent>
                 <TouchableWithoutFeedback onPress={() => setShowModifyPassword(false)}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', paddingVertical: 105, paddingHorizontal: theme.SPACING.small }}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', paddingVertical: 90}}>
                         <TouchableWithoutFeedback>
                             <View style={{ backgroundColor: theme.COLORS.background, borderRadius: 12, padding: theme.SPACING.large, alignSelf: 'center' }}>
                                 <ModifyPassword onClose={() => setShowModifyPassword(false)} />

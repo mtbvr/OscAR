@@ -5,6 +5,7 @@ import { theme } from '../../constants/theme';
 import '../../utils/ignoreWarnings';
 import { GooglePlacesAutocomplete, GooglePlaceData, GooglePlaceDetail } from 'react-native-google-places-autocomplete';
 import { GOOGLE_API_KEY } from '@env';
+import PageTitle from '../../components/page-title';
 
 export default function MapsScreen() {
     const mapRef = useRef<MapView | null>(null);
@@ -24,14 +25,12 @@ export default function MapsScreen() {
     return (
         <KeyboardAvoidingView style={{ flex: 1, backgroundColor: theme.COLORS.background }} behavior={Platform.OS === 'ios' ? 'padding' : undefined} >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, paddingHorizontal: theme.SPACING.large }}>
                     {/* Header and Title */}
-                    <View style={{ paddingVertical: theme.SPACING.large, paddingHorizontal: theme.SPACING.medium }}>
-                        <Text style={{ fontSize: theme.FONT_SIZES.subtitle, fontWeight: 'bold', color: theme.COLORS.textPrimary }}>Carte de France </Text>
-                    </View>
+                    <PageTitle title="Carte de France" />
 
                     {/* Map View */}
-                    <View style={{ marginHorizontal: theme.SPACING.medium, height: 400, borderWidth: 3, borderColor: '#000000', borderRadius: 8, overflow: 'hidden', }} >
+                    <View style={{ height: 400, borderWidth: 3, borderColor: '#000000', borderRadius: 8, overflow: 'hidden', }} >
                         <MapView ref={mapRef} style={{ height: '100%', width: '100%' }} initialRegion={{ latitude: 48.8566, longitude: 2.3522, latitudeDelta: 0.0922, longitudeDelta: 0.0421, }} >
                             {/* Example Marker */}
                             <Marker coordinate={{ latitude: 48.8566, longitude: 2.3522 }} title="Paris" description="Capitale de la France" />
@@ -39,7 +38,7 @@ export default function MapsScreen() {
                     </View>
 
                     {/* Search Bar */}
-                    <View style={{ marginHorizontal: theme.SPACING.medium, marginTop: theme.SPACING.medium, position: 'absolute', top: 70, left: 15, width: '83%', }} >
+                    <View style={{ position: 'absolute', top: 85, left: 35, width: '93%', }} >
                         <GooglePlacesAutocomplete
                             placeholder="Recherchez une adresse"
                             onPress={handleLocationSelect}
