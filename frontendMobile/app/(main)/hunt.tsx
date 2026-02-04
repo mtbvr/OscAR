@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'expo-router';
 import { Asset } from 'expo-asset';
 import { SvgUri } from 'react-native-svg';
+import PageTitle from '../../components/page-title';
 
 // Icon mapping
 const ICONS = {
@@ -31,7 +32,7 @@ const HuntSection = ({ title, icon, iconColor, placeholderIcon, placeholderMessa
     const router = useRouter();
     
     return (
-        <View style={{ flexDirection: 'column', marginTop: theme.SPACING.medium }}>
+        <View style={{ flexDirection: 'column', marginBottom: theme.SPACING.medium }}>
             <View style={{ flexDirection: 'row', marginBottom: theme.SPACING.medium, alignItems: 'center' }}>
                 <SvgUri uri={getIconUri(icon)} width={25} height={25} color={iconColor} />
                 <Text style={{ ...globalStyles.subtitle, fontSize: theme.FONT_SIZES.text, marginLeft: theme.SPACING.small }}>{title}</Text>
@@ -56,8 +57,8 @@ export default function HuntScreen() {
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1, paddingVertical: theme.SPACING.large, paddingHorizontal: theme.SPACING.large }}>
-                <Text style={{ ...globalStyles.subtitle, fontWeight: '800' }}>Mes Chasses</Text>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, paddingHorizontal: theme.SPACING.large }}>
+                <PageTitle title="Mes Chasses" />
                 <HuntSection
                     title="Chasses en cours (0)"
                     icon="target-larger.svg"
