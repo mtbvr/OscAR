@@ -62,7 +62,7 @@ export function requireRole(required: RoleEnum | RoleEnum[]) {
 
       if (!userRole) {
         return next(new AppError({
-          userMessage: 'Votre jeton d\'authentification ne permet pas de vérifier votre rôle',
+          userMessage: 'Accès non autorisé',
           statusCode: 403,
           route: req.originalUrl,
         }));
@@ -71,7 +71,7 @@ export function requireRole(required: RoleEnum | RoleEnum[]) {
       if (!userRole.some((role: string) => requiredRoles.includes(role as RoleEnum))) {
         console.log('User role:', userRole);
         return next(new AppError({
-          userMessage: 'Accès refusé: rôle insuffisant',
+          userMessage: 'Accès non autorisé',
           statusCode: 403,
           route: req.originalUrl,
         }));
@@ -81,7 +81,7 @@ export function requireRole(required: RoleEnum | RoleEnum[]) {
       return next();
     } catch (err) {
       return next(new AppError({
-        userMessage: 'Jeton d\'authentification invalide',
+        userMessage: 'Session de connexion expirée ou invalide',
         statusCode: 401,
         route: req.originalUrl,
       }));
