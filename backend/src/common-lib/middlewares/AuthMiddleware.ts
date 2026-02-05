@@ -13,7 +13,7 @@ export async function authMiddleware(
 
   if (!token) {
     return next(new AppError({
-      userMessage: 'Token d\'authentification manquant',
+      userMessage: 'Utilisateur non connecté',
       statusCode: 401,
       route: req.originalUrl,
     }));
@@ -28,7 +28,7 @@ export async function authMiddleware(
     next();
   } catch (err) {
     return next(new AppError({
-      userMessage: 'Token d\'authentification invalide',
+      userMessage: 'Utilisateur non connecté',
       statusCode: 401,
       route: req.originalUrl,
     }));
@@ -46,7 +46,7 @@ export function requireRole(required: RoleEnum | RoleEnum[]) {
 
     if (!token) {
       return next(new AppError({
-        userMessage: 'Token d\'authentification manquant',
+        userMessage: 'Utilisateur non connecté',
         statusCode: 401,
         route: req.originalUrl,
       }));
@@ -62,7 +62,7 @@ export function requireRole(required: RoleEnum | RoleEnum[]) {
 
       if (!userRole) {
         return next(new AppError({
-          userMessage: 'Votre token ne permet pas de vérifier votre rôle',
+          userMessage: 'Accès non autorisé',
           statusCode: 403,
           route: req.originalUrl,
         }));
@@ -71,7 +71,7 @@ export function requireRole(required: RoleEnum | RoleEnum[]) {
       if (!userRole.some((role: string) => requiredRoles.includes(role as RoleEnum))) {
         console.log('User role:', userRole);
         return next(new AppError({
-          userMessage: 'Accès refusé: rôle insuffisant',
+          userMessage: 'Accès non autorisé',
           statusCode: 403,
           route: req.originalUrl,
         }));
@@ -81,7 +81,7 @@ export function requireRole(required: RoleEnum | RoleEnum[]) {
       return next();
     } catch (err) {
       return next(new AppError({
-        userMessage: 'Token d\'authentification invalide',
+        userMessage: 'Session de connexion expirée ou invalide',
         statusCode: 401,
         route: req.originalUrl,
       }));

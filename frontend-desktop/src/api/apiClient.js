@@ -1,4 +1,5 @@
 const API_URL = process.env.REACT_APP_API_URL;
+import { useNotificationStore } from '../common/store/notificationStore';
 
 export async function apiClient(
   path,
@@ -14,17 +15,38 @@ export async function apiClient(
     body: body ? JSON.stringify(body) : undefined,
   });
 
-  if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(errorText || 'API error');
-  }
+  const contentType = res.headers.get("content-type") || '';
 
-    if (res.status === 204) {
+  if (!res.ok) {
+    let errorMessage = 'API error';
+    let errorDetails = undefined;
+    let statusCode = res.status;
+
+    if (contentType.includes('application/json')) {
+      try {
+        const err = await res.json();
+        errorMessage = err?.message || 'API error';
+        errorDetails = err?.details;
+      } catch (parseErr) {
+        errorMessage = 'API error';
+      }
+    } else {
+      try {
+        errorMessage = await res.text();
+      } catch (parseErr) {
+        errorMessage = 'API error';
+      }
+    }
+
+    useNotificationStore.getState().addNotification(errorMessage, errorDetails, statusCode);
     return null;
   }
 
-  const contentType = res.headers.get("content-type");
-  if (contentType && contentType.includes("application/json")) {
+  if (res.status === 204) {
+    return null;
+  }
+
+  if (contentType.includes("application/json")) {
     return res.json();
   }
 

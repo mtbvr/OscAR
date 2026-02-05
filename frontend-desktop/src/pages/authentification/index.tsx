@@ -4,6 +4,7 @@ import { LogUserDto } from "../../api/models/users/LogUserDto.js";
 import { addUser } from "../../api/services/users.api.js";
 import { currentUser, logoutUser, logUser } from "../../api/services/auth.api.js";
 import { useAuthStore } from "../../common/store/authStore";
+import { useNotificationStore } from "../../common/store/notificationStore";
 
 export default function Authentification() {
 
@@ -11,7 +12,7 @@ export default function Authentification() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const clearUser = useAuthStore((state) => state.clearUser);
   const setUser = useAuthStore((state) => state.setUser);
-  
+    
   const signinFields = [
     { name: "email", label: "Email", type: "email", required: true },
     { name: "password", label: "Mot de passe", type: "password", required: true },
@@ -30,13 +31,8 @@ export default function Authentification() {
       return;
     }
 
-    try {
-      const newUser = await addUser(values);
-      setUser(newUser);
-      console.log(newUser)
-    } catch (err) {
-      console.error("Erreur:", err);
-    }
+    const newUser = await addUser(values);
+    setUser(newUser);
   };
 
   const handleSubmitLogin = async (values: LogUserDto) => {
@@ -46,22 +42,13 @@ export default function Authentification() {
       return;
     }
 
-    try {
-      const newUser = await logUser(values);
-      setUser(newUser);
-
-    } catch (err) {
-      console.error("Erreur:", err);
-    }
+    const newUser = await logUser(values);
+    setUser(newUser);
   };
 
   const handleLogout = async () => {
-    try {
-      await logoutUser();
-      clearUser();
-    } catch (err) {
-      console.error("Erreur lors de la déconnexion :", err);
-    }
+    await logoutUser();
+    clearUser();
   };
 
   return (
