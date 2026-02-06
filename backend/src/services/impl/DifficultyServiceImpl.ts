@@ -9,7 +9,7 @@ const difficultyRepository = new DifficultyRepository();
 export class DifficultyServiceImpl implements DifficultyService {
   async getAllDifficulty() {
     try {
-        const users = await difficultyRepository.findAll();
+        const users = await difficultyRepository.getAll();
         return users.map(difficultyMapper.toLightDTO);
     } catch (error: any) {
         throw new AppError({

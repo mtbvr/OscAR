@@ -2,7 +2,7 @@ import { pool } from "../config/database.js";
 import { DifficultyEntity } from "../entity/DifficultyEntity.js";
 
 export class DifficultyRepository  {
-  async findAll(): Promise<DifficultyEntity[]> {
+  async getAll(): Promise<DifficultyEntity[]> {
     const result = await pool.query("SELECT * FROM difficulty");
     return result.rows;
   }
