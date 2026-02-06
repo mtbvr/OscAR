@@ -8,4 +8,6 @@ const huntsController = new HuntsController();
 
 huntsRoutes.post("/hunt", authMiddleware, (req, res, next) => huntsController.createHunt(req, res, next));
 
+huntsRoutes.get("/hunt", authMiddleware, (req, res, next) => huntsController.getAllHunt(req, res, next));
+
 export default huntsRoutes;

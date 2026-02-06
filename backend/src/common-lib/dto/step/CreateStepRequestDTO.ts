@@ -1,9 +1,9 @@
 export interface CreateStepRequestDTO {
   title: string;
   description: string;
-  hunt_id: number;
+  hunt_id: string;
   points: number;
   latitude: number;
   longitude: number;
-  index_id?: number;
+  index_id?: string;
 }

@@ -1,4 +1,4 @@
-export interface CreateHuntRequestDTO {
+export interface CreateHuntDto {
     title: string;
     description: string;
     creator_id: string;
@@ -6,5 +6,5 @@ export interface CreateHuntRequestDTO {
     points: number;
     latitude: number;
     longitude: number;
-    picture_path: string;
+    picture_path?: string | null;
 }

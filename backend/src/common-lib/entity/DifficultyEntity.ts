@@ -1,8 +1,7 @@
-export interface IndexEntity {
+export interface DifficultyEntity {
   id: string;
   name: string;
-  index: number;
-  hunt_id: string;
+  multiplicator: number;
   created_at: Date;
   updated_at: Date;
 }

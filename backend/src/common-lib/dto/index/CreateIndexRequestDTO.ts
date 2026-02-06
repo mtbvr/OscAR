@@ -1,5 +1,4 @@
 export interface CreateIndexRequestDTO {
   name?: string;
-  index: number;
-  hunt_id: number;
+  hunt_id: string;
 }

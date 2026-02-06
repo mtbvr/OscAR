@@ -1,4 +1,4 @@
 export interface CreateIndexResponseDTO {
-    id: number,
+    id: string,
     name: string
 }

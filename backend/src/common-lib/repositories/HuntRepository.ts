@@ -15,10 +15,15 @@ export class HuntRepository {
                 huntData.points,
                 huntData.latitude,
                 huntData.longitude,
-                huntData.picture_path
+                huntData.picture_path || null
             ]
         )
         return result.rows[0];
+    }
+
+    async getAll(): Promise<HuntEntity[]> {
+        const result = await pool.query("SELECT * FROM hunts")
+        return result.rows
     }
 
 }

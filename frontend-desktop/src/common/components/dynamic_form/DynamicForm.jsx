@@ -1,25 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-export default function DynamicForm({ fields, onSubmit, submitLabel = "Valider" }) {
-  const [values, setValues] = useState(
-    () =>
-      fields.reduce((acc, field) => {
-        acc[field.name] = "";
-        return acc;
-      }, {})
+export default function DynamicForm({ fields, onSubmit, submitLabel = "Valider", onFieldChange = undefined, resetSignal = 0 }) {
+  const [values, setValues] = useState(() =>
+    fields.reduce((acc, field) => {
+      acc[field.name] = field.defaultValue ?? "";
+      return acc;
+    }, {})
   );
 
+  useEffect(() => {
+    setValues(
+      fields.reduce((acc, field) => {
+        acc[field.name] = field.defaultValue ?? "";
+        return acc;
+      }, {})
+    );
+  }, [resetSignal]);
+
   const handleChange = (name, type, value) => {
-    let parsed = value;
-    if (type === "number") {
-      parsed = value === "" ? "" : Number(value);
-    }
+    const parsed = type === "number" ? (value === "" ? "" : Number(value)) : value;
+
     setValues((prev) => ({ ...prev, [name]: parsed }));
+
+    if (onFieldChange) {
+      onFieldChange(name, parsed);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(values);
+  };
+
+  const renderField = (field) => {
+    if (field.type === "select") {
+      return (
+        <select
+          name={field.name}
+          required={field.required}
+          value={values[field.name]}
+          onChange={(e) => handleChange(field.name, field.type, e.target.value)}
+        >
+          <option value="">-- Choisir --</option>
+          {field.options?.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      );
+    }
+
+    return (
+      <input
+        type={field.type}
+        name={field.name}
+        placeholder={field.placeholder}
+        required={field.required}
+        value={values[field.name]}
+        onChange={(e) => handleChange(field.name, field.type, e.target.value)}
+      />
+    );
   };
 
   return (
@@ -30,14 +71,8 @@ export default function DynamicForm({ fields, onSubmit, submitLabel = "Valider" 
             {field.label}
             {field.required && " *"}
           </label>
-          <input
-            type={field.type}
-            name={field.name}
-            placeholder={field.placeholder}
-            required={field.required}
-            value={values[field.name]}
-            onChange={(e) => handleChange(field.name, field.type, e.target.value)}
-          />
+
+          {renderField(field)}
         </div>
       ))}
 

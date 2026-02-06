@@ -4,6 +4,8 @@ import { IndexRepository } from "../../common-lib/repositories/IndexRepository";
 import { CreateIndexRequestDTO } from "../../common-lib/dto/index/CreateIndexRequestDTO";
 import { CreateIndexResponseDTO } from "../../common-lib/dto/index/CreateIndexResponseDTO";
 import { indexMapper } from "../../mapper/IndexMapper";
+import { GetIndexByHuntRequestDTO } from "../../common-lib/dto/index/GetIndexByHuntRequestDTO";
+import { GetIndexByHuntResponseDTO } from "../../common-lib/dto/index/GetIndexByHuntResponseDTO";
 
 const indexRepository = new IndexRepository();
 
@@ -17,6 +19,18 @@ export class IndexServiceImpl implements IndexService {
         } catch (error: any) {
             throw new AppError({
                 userMessage: 'Erreur lors de la création de l\'index',
+                statusCode: 500,
+            });
+        }
+    }
+
+    async getIndexByHunt(huntId: GetIndexByHuntRequestDTO): Promise<GetIndexByHuntResponseDTO[]> {
+        try {
+            const index = await indexRepository.getByHuntID(huntId);
+            return index.map(indexMapper.toLightDTO);
+        } catch (error: any) {
+            throw new AppError({
+                userMessage: 'Erreur lors de la récupération des index de la chasse',
                 statusCode: 500,
             });
         }

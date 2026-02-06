@@ -11,10 +11,24 @@ export class HuntsController  {
 
   async createHunt(req: Request, res: Response, next: any) {
     try {
+      const userId = req.user?.id;
+      if (!userId) {
+        throw new Error("User ID not found in request");
+      }
       const huntData = req.body;
-      const newHunt = await this.huntsService.createHunt(huntData);
+      const newHunt = await this.huntsService.createHunt(huntData, userId);
       res.status(201).json(newHunt);
     } catch (err) {
+      console.error(err);
+      next(err);
+    }
+  }
+
+  async getAllHunt(req: Request, res: Response, next: any) {
+    try {
+      const allHunt = await this.huntsService.getAllHunt();
+      res.status(201).json(allHunt);
+    } catch(err) {
       console.error(err);
       next(err);
     }
