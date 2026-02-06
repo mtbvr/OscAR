@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, TextInput, Modal, SafeAreaView, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, TextInput, Modal, TouchableWithoutFeedback } from 'react-native';
 import { globalStyles, theme } from '../constants/theme';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from 'expo-asset';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import HeaderNavbar from '@/components/ui/header-navbar';
-import BottomNavbar from '@/components/ui/bottom-navbar';
+import HeaderNavbar from '../components/ui/header-navbar';
+import BottomNavbar from '../components/ui/bottom-navbar';
 import { Ionicons } from '@expo/vector-icons';
 import ModifyPassword from '../components/modify-password';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Icon mapping
 const ICONS = {
@@ -97,7 +98,7 @@ export default function ProfilModifyScreen() {
             {/* Modal for ModifyPassword */}
             <Modal visible={showModifyPassword} animationType="fade" transparent>
                 <TouchableWithoutFeedback onPress={() => setShowModifyPassword(false)}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', paddingVertical: 105, paddingHorizontal: theme.SPACING.small }}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)', paddingVertical: 90}}>
                         <TouchableWithoutFeedback>
                             <View style={{ backgroundColor: theme.COLORS.background, borderRadius: 12, padding: theme.SPACING.large, alignSelf: 'center' }}>
                                 <ModifyPassword onClose={() => setShowModifyPassword(false)} />

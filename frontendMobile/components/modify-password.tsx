@@ -4,6 +4,7 @@ import { theme } from '../constants/theme';
 import { SvgUri } from 'react-native-svg';
 import { Asset } from 'expo-asset';
 import { LinearGradient } from 'expo-linear-gradient';
+import PageTitle from './page-title';
 
 // Icon mapping
 const ICONS = {
@@ -20,13 +21,13 @@ function getIconUri(iconName: keyof typeof ICONS): string {
 // ModifyPassword component
 const ModifyPassword: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     return (
-        <View style={{ flex: 1, backgroundColor: theme.COLORS.background, paddingHorizontal: theme.SPACING.small, paddingVertical: theme.SPACING.xLarge, borderRadius: 12, width: '90%' }}>
+        <View style={{ flex: 1, backgroundColor: theme.COLORS.background, paddingHorizontal: theme.SPACING.medium, paddingVertical: theme.SPACING.xLarge, borderRadius: 12 }}>
             {/* Lock Icon */}
             <View style={{ alignItems: 'center', marginBottom: theme.SPACING.large }}>
                 <View style={{ width: 80, height: 80, borderRadius: 500, backgroundColor: theme.COLORS.error, justifyContent: 'center', alignItems: 'center' }}>
                     <SvgUri uri={getIconUri("lock-larger.svg")} width={60} height={60} color={theme.COLORS.background} />
                 </View>
-                <Text style={{ fontSize: 20, fontWeight: '800', color: theme.COLORS.textPrimary, marginTop: theme.SPACING.medium }}>Modifiez votre mot de passe</Text>
+                <PageTitle title="Modifier le mot de passe" />
             </View>
 
             {/* Password Fields */}

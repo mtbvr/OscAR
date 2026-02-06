@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { theme, globalStyles } from '../constants/theme';
+import { theme } from '../constants/theme';
 import { Asset } from 'expo-asset';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import HeaderNavbar from '@/components/ui/header-navbar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomNavbar from '@/components/ui/bottom-navbar';
-import { SvgUri } from 'react-native-svg';
+import SectionTitle from '../components/section-title';
 
 // Icon mapping
 const ICONS = {
@@ -48,10 +48,11 @@ export default function SocialLeaderboardScreen() {
 
             {/* Global Leaderboard */}
             <View style={{ borderWidth: 1, borderColor: theme.COLORS.border, borderRadius: 8, backgroundColor: theme.COLORS.background, paddingVertical: theme.SPACING.large, paddingHorizontal: theme.SPACING.medium, marginTop: theme.SPACING.medium }}>
-                <View style={{ flexDirection: 'row', marginBottom: theme.SPACING.large, width: '100%' }}>
-                    <SvgUri uri={getIconUri("trophy.svg")} width={30} height={30} color={theme.COLORS.secondary} />
-                    <Text style={{ marginLeft: theme.SPACING.small, fontSize: theme.FONT_SIZES.subtitle, fontWeight: '700', color: theme.COLORS.textPrimary }}>Classement Global</Text>
-                </View>
+                <SectionTitle 
+                    title="Classement Global" 
+                    iconUri={getIconUri("trophy.svg")} 
+                    iconColor={theme.COLORS.secondary} 
+                />
                 <Text style={{ fontSize: theme.FONT_SIZES.text, color: theme.COLORS.textSecondary }}>Liste des meilleurs joueurs à venir</Text>
             </View>
         </View>
