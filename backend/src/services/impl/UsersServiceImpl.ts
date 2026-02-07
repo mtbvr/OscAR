@@ -5,6 +5,7 @@ import { NewUserRequestDTO } from "../../common-lib/dto/users/NewUserRequestDTO.
 import AppError from "../../common-lib/errors/AppError.js";
 import { AddressRepository } from "../../common-lib/repositories/AddressRepository.js";
 import { CulturalCenterRepository } from "../../common-lib/repositories/CulturalCenterRepository.js";
+import { pool } from "../../common-lib/config/database.js";
 
 const userRepository = new UserRepository();
 const culturalCenterRepository = new CulturalCenterRepository();
@@ -12,29 +13,69 @@ const addressRepository = new AddressRepository();
 
 
 export class UsersServiceImpl implements UsersService {
+
   async getAllUsers() {
     const users = await userRepository.findAll();
     return users.map(userMapper.toDTO);
   }
 
   async createUser(userData: NewUserRequestDTO) {
+    const client = await pool.connect(); 
     try {
-
-      if (userData.isNewCulturalCenter && userData.newCulturalCenter) {
-        const address = await addressRepository.create(userData.newCulturalCenter.address);
+      await client.query('BEGIN');
+      if (userData.isNewCulturalCenter) {
+        if (!userData.newCulturalCenter) {
+          throw new AppError({
+            userMessage: 'Les informations du nouveau centre culturel sont requises',
+            statusCode: 400,
+          });
+        };
+        const address = await addressRepository.createWithClient(
+          client,
+          userData.newCulturalCenter.address
+        );
         userData.newCulturalCenter.address_id = address.id;
-        const culturalCenter = await culturalCenterRepository.create(userData.newCulturalCenter);
-
-        userData.id_cultural_center = culturalCenter.id;
+        const culturalCenter = await culturalCenterRepository.createWithClient(
+          client,
+          userData.newCulturalCenter
+        );
+        userData.id_cultural_center = culturalCenter.id;   
       }
-      const newUser = await userRepository.create(userData);
+      if (!userData.isNewCulturalCenter) {
+        if (!userData.id_cultural_center) {
+          throw new AppError({
+            userMessage: 'L\'utilisateur doit être associé à un centre culturel existant ou en créer un nouveau',
+            statusCode: 400,
+          });
+        }
+
+      }
+      const newUser = await userRepository.createWithClient(client, userData);
+      await client.query('COMMIT');
       return userMapper.toDTONewUser(newUser);
     } catch (error: any) {
+      await client.query('ROLLBACK');
+      if (error instanceof AppError) {
+        throw error;
+      }
       if (error.code === '23505') {
-        throw new AppError({
-          userMessage: 'Un utilisateur avec cet email existe déjà',
-          statusCode: 409,
-        });      
+        switch (error.constraint) {
+          case 'users_email_key':
+            throw new AppError({
+              userMessage: 'Un utilisateur avec cet email existe déjà',
+              statusCode: 409,
+            });
+          case 'cultural_centers_name_key':
+            throw new AppError({
+              userMessage: 'Un centre culturel avec ce nom existe déjà',
+              statusCode: 409,
+            });
+          default:
+            throw new AppError({
+              userMessage: 'Conflit de contrainte d\'unicité',
+              statusCode: 409,
+            });
+        }
       }
       throw new AppError({
         userMessage: 'Erreur lors de la création de l\'utilisateur',

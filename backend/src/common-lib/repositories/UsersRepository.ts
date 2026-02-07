@@ -1,3 +1,4 @@
+import { PoolClient } from "pg";
 import { pool } from "../config/database.js";
 import { NewUserRequestDTO } from "../dto/users/NewUserRequestDTO.js";
 import { UserEntity } from "../entity/UsersEntity.js";
@@ -9,11 +10,11 @@ export class UserRepository  {
     return result.rows;
   }
 
-  async create(userData: NewUserRequestDTO): Promise<UserEntity> {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    const result = await pool.query(
-      "INSERT INTO users (email, username, password) VALUES ($1, $2, $3) RETURNING id, username",
-      [userData.email, userData.username, hashedPassword]
+  async createWithClient(client: PoolClient, userData: NewUserRequestDTO): Promise<UserEntity> {
+  const hashedPassword = await bcrypt.hash(userData.password, 10);
+    const result = await client.query(
+      "INSERT INTO users (email, username, password, id_cultural_center) VALUES ($1, $2, $3, $4) RETURNING id, username",
+      [userData.email, userData.username, hashedPassword, userData.id_cultural_center]
     );
     return result.rows[0];
   }

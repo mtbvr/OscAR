@@ -1,11 +1,13 @@
+import { PoolClient } from "pg";
 import { pool } from "../config/database.js";
 import { CreateCulturalCenterRequestDTO } from "../dto/culturalcenter/CreateCulturalCenterRequestDTO.js";
 import { CulturalCenterEntity } from "../entity/CulturalCenterEntity.js";
 
 export class CulturalCenterRepository  {
-    async create(culturalCenterData: CreateCulturalCenterRequestDTO): Promise<CulturalCenterEntity> {
-        const result = await pool.query(
-        "INSERT INTO cultural_center (name, description, address_id, picture_path) VALUES ($1, $2, $3, $4) RETURNING *",
+    async createWithClient(client: PoolClient, culturalCenterData: CreateCulturalCenterRequestDTO): Promise<CulturalCenterEntity> {
+        console.log(culturalCenterData)
+        const result = await client.query(
+        "INSERT INTO cultural_centers (name, description, address_id, picture_path) VALUES ($1, $2, $3, $4) RETURNING *",
         [culturalCenterData.name, culturalCenterData.description, culturalCenterData.address_id, culturalCenterData.picture_path]
         );
         return result.rows[0];

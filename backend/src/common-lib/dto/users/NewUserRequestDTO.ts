@@ -4,7 +4,7 @@ export interface NewUserRequestDTO {
   username: string;
   email: string;
   password: string;
-  id_cultural_center: string | undefined;
-  isNewCulturalCenter: boolean | false;
-  newCulturalCenter: CreateCulturalCenterRequestDTO | null;
+  id_cultural_center?: string;
+  isNewCulturalCenter?: boolean;
+  newCulturalCenter?: CreateCulturalCenterRequestDTO;
 }
