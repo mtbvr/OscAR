@@ -4,7 +4,9 @@ import MapView, { Marker } from 'react-native-maps';
 import { theme } from '../../constants/theme';
 import '../../utils/ignoreWarnings';
 import { GooglePlacesAutocomplete, GooglePlaceData, GooglePlaceDetail } from 'react-native-google-places-autocomplete';
-import { GOOGLE_API_KEY } from '@env';
+import Constants from 'expo-constants';
+// Utilisation de Constants.expoConfig pour accéder à la clé API
+const GOOGLE_API_KEY = Constants.expoConfig?.extra?.googleApiKey || '';
 import PageTitle from '../../components/page-title';
 
 export default function MapsScreen() {

@@ -14,8 +14,6 @@
   },
   "include": [
     "./@types",
-    "./app/**/*",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "./app/**/*"
   ]
 }
