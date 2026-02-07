@@ -1,7 +1,10 @@
+require('./loadEnv');
+
 export default {
   expo: {
+    scheme: "frontendmobile",
     extra: {
-      googleApiKey: "AIzaSyDMmQfaInIdzsyQWUQhA40D7n6Bhrfr8qw",
+      googleApiKey: process.env.GOOGLE_API_KEY,
     },
   },
 };
