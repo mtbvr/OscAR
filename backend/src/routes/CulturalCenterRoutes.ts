@@ -1,12 +1,10 @@
 import { Router } from 'express';
-import { authMiddleware } from '../common-lib/middlewares/AuthMiddleware.js';
-import { AuthServiceImpl } from '../services/impl/AuthServiceImpl.js';
-import { AuthController } from '../controllers/AuthController.js';
+import { CulturalCenterController } from '../controllers/CulturalCenterController.js';
 
 const culturalCenterRoutes = Router();
 
-const culturalCenterController = new AuthController();
+const culturalCenterController = new CulturalCenterController();
 
-culturalCenterRoutes.post('/culturalcenter', (req, res, next) => culturalCenterController.authentificateUser(req, res, next));
+culturalCenterRoutes.get('/culturalcenter', (req, res, next) => culturalCenterController.getAll(req, res, next));
 
 export default culturalCenterRoutes;

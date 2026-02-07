@@ -8,11 +8,10 @@ export class CulturalCenterController {
         this.culturalCenterService = new CulturalCenterServiceImpl();
     }
 
-    async createCulturalCenter(req: Request, res: Response, next: any) {
+    async getAll(req: Request, res: Response, next: any) {
         try {
-            const culturalCenterData = req.body;
-            const newCulturalCenter = await this.culturalCenterService.createCulturalCenter(culturalCenterData);
-            res.status(201).json(newCulturalCenter);
+            const culturalCenters = await this.culturalCenterService.getAllActiveCulturalCenters();
+            res.status(200).json(culturalCenters);
         } catch (err) {
             console.error(err);
             next(err);

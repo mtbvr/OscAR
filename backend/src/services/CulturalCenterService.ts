@@ -1,7 +1,5 @@
-import { CreateCulturalCenterRequestDTO } from "../common-lib/dto/culturalcenter/CreateCulturalCenterRequestDTO";
-import { CreateCulturalCenterResponseDTO } from "../common-lib/dto/culturalcenter/CreateCulturalCenterResponseDTO";
-import { CulturalCenterEntity } from "../common-lib/entity/CulturalCenterEntity";
+import { GetAllCulturalCenterResponseDTO } from "../common-lib/dto/culturalcenter/GetAllCulturalCenterResponseDTO";
 
 export interface CulturalCenterService {
-    createCulturalCenter(culturalCenterData: CreateCulturalCenterRequestDTO): Promise<CreateCulturalCenterResponseDTO>;
+    getAllActiveCulturalCenters(): Promise<GetAllCulturalCenterResponseDTO[]>;
 }
