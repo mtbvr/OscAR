@@ -14,6 +14,7 @@ import difficultyRoutes from '../routes/DifficultyRoutes.js';
 import { runMigrations } from '../common-lib/config/runMigrations.js';
 import { RoleEnum } from '../common-lib/enum/roleEnum.js';
 import indexRoutes from '../routes/IndexRoutes.js';
+import culturalCenterRoutes from '../routes/CulturalCenterRoutes.js';
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -31,6 +32,7 @@ app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MAN
 app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), stepsRoutes);
 app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), indexRoutes);
 app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), difficultyRoutes)
+app.use('/api', culturalCenterRoutes)
 
 // Routes admin protégées par le middleware requireRole
 app.use('/api/admin', requireRole(RoleEnum.ADMIN), adminRoutes);
