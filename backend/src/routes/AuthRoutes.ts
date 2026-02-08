@@ -6,9 +6,21 @@ const authRoutes = Router();
 
 const authController = new AuthController();
 
-authRoutes.post('/auth/login/web', (req, res, next) => authController.authentificateUser(req, res, next));
+authRoutes.post(
+    '/auth/login/web', 
+    (req, res, next) => authController.authentificateUser(req, res, next)
+);
 
-authRoutes.get('/auth/me', authMiddleware, (req, res) => authController.getCurrentUser(req, res));
+authRoutes.get(
+    '/auth/me', 
+    authMiddleware, 
+    (req, res) => authController.getCurrentUser(req, res)
+);
 
-authRoutes.post('/auth/logout', authMiddleware, (req, res) => authController.logoutUser(req, res));
+authRoutes.post(
+    '/auth/logout', 
+    authMiddleware, 
+    (req, res) => authController.logoutUser(req, res)
+);
+
 export default authRoutes;

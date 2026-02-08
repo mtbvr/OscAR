@@ -28,10 +28,10 @@ app.use(cookieParser());
 
 app.use('/api', usersRoutes);
 app.use('/api', authRoutes);
-app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), huntsRoutes);
-app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), stepsRoutes);
-app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), indexRoutes);
-app.use('/api', requireRole([RoleEnum.HUNT_MANAGER, RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]), difficultyRoutes)
+app.use('/api', huntsRoutes);
+app.use('/api', stepsRoutes);
+app.use('/api', indexRoutes);
+app.use('/api', difficultyRoutes)
 app.use('/api', culturalCenterRoutes)
 
 // Routes admin protégées par le middleware requireRole

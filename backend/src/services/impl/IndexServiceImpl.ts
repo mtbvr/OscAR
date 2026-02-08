@@ -24,7 +24,7 @@ export class IndexServiceImpl implements IndexService {
         }
     }
 
-    async getIndexByHunt(huntId: GetIndexByHuntRequestDTO): Promise<GetIndexByHuntResponseDTO[]> {
+    async getIndexByHunt(huntId: string): Promise<GetIndexByHuntResponseDTO[]> {
         try {
             const index = await indexRepository.getByHuntID(huntId);
             return index.map(indexMapper.toLightDTO);
