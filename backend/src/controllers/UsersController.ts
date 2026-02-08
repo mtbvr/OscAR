@@ -40,4 +40,18 @@ export class UsersController  {
       next(err)
     }
   }
+
+  async switchStatus(req: Request, res: Response, next:any) {
+    try {
+      console.log("Switch users Status")
+      const ids = req.body.ids
+      const result = await this.usersService.switchUsersStatus(ids)
+       if (!result) {
+          return res.status(500).json({ message: "Impossible de changer le statut des utilisateurs" });
+        }
+        return res.status(200).json({ success: true });
+    } catch (err){
+      next(err)
+    }
+  }
 };

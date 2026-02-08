@@ -3,6 +3,8 @@ import { pool } from "../config/database.js";
 import { NewUserRequestDTO } from "../dto/users/NewUserRequestDTO.js";
 import { UserEntity } from "../entity/UsersEntity.js";
 import bcrypt from "bcrypt";
+import { SwitchStatusUsersRequestDTO } from "../dto/users/SwitchStatusUsersRequestDTO.js";
+import { RoleEnum } from "../enum/roleEnum.js";
 
 export class UserRepository  {
   async findAll(): Promise<UserEntity[]> {
@@ -27,7 +29,6 @@ export class UserRepository  {
     const insertValues = rightIds
       .map((_, i) => `($1, $${i + 2})`)
       .join(", ");
-
     await client.query(
       `INSERT INTO right_user (user_id, right_id) VALUES ${insertValues}`,
       [user.id, ...rightIds]
@@ -85,5 +86,46 @@ export class UserRepository  {
 
     const user = result.rows[0];
     return user;
+  }
+
+  async switchUsersStatus(ids: SwitchStatusUsersRequestDTO): Promise<{ id: string; isActive: boolean }[]> {
+    console.log("begin sql", ids)
+    const result = await pool.query(
+      `
+        UPDATE users
+        SET "isActive" = NOT "isActive"
+        WHERE id = ANY($1)
+        RETURNING id, "isActive"
+      `,
+      [ids]
+    );
+    console.log("fin sql")
+    return result.rows;
+  }
+
+  async deactivateUsersByCenter(centerId: string) {
+    await pool.query(
+      `
+        UPDATE users
+        SET "isActive" = FALSE
+        WHERE id_cultural_center = $1
+      `,
+      [centerId]
+    );
+  }
+
+  async activateManagersByCenter(centerId: string) {
+    await pool.query(
+      `
+        UPDATE users u
+        SET "isActive" = TRUE
+        FROM right_user ru
+        JOIN rights r ON r.id = ru.right_id
+        WHERE u.id = ru.user_id
+          AND u.id_cultural_center = $1
+          AND r.name = $2
+      `,
+      [centerId, RoleEnum.CULTURAL_CENTER_MANAGER]
+    );
   }
 }

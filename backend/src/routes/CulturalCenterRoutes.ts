@@ -57,4 +57,38 @@ culturalCenterRoutes.get(
     (req, res, next) => culturalCenterController.getAll(req, res, next)
 )
 
+
+/** 
+ * @swagger
+ * /culturalcenter/switchactivation:
+ *   put:
+ *     summary: Switcher le statut actif d'un centre culturel
+ *     tags: [CulturalCenter]
+ *     security:
+ *       - bearerAuth: []
+ *     description: >
+ *       Rôles autorisés : ADMIN 
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/CulturalCenterSwitchStatus"
+ *     responses:
+ *       200:
+ *         description: Liste des utilisateurs
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/Success"
+ */
+culturalCenterRoutes.put(
+    "/culturalcenter/switchactivation",
+    authMiddleware,
+    requireRole([RoleEnum.CULTURAL_CENTER_MANAGER, RoleEnum.ADMIN]),
+    (req, res, next) => culturalCenterController.switchStatus(req, res, next)
+)
+
 export default culturalCenterRoutes;

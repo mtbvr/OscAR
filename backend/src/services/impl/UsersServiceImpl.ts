@@ -7,6 +7,7 @@ import { AddressRepository } from "../../common-lib/repositories/AddressReposito
 import { CulturalCenterRepository } from "../../common-lib/repositories/CulturalCenterRepository.js";
 import { pool } from "../../common-lib/config/database.js";
 import { RoleEnum } from "../../common-lib/enum/roleEnum.js";
+import { SwitchStatusUsersRequestDTO } from "../../common-lib/dto/users/SwitchStatusUsersRequestDTO.js";
 
 const userRepository = new UserRepository();
 const culturalCenterRepository = new CulturalCenterRepository();
@@ -16,8 +17,18 @@ const addressRepository = new AddressRepository();
 export class UsersServiceImpl implements UsersService {
 
   async getAllUsers() {
-    const users = await userRepository.findAll();
-    return users.map(userMapper.toLightDTO);
+    try {
+      const users = await userRepository.findAll();
+      return users.map(userMapper.toLightDTO);
+    } catch (error:any) {
+      if (error instanceof AppError) {
+        throw error;
+      }
+      throw new AppError({
+        userMessage: 'Erreur lors de la récupération des utilisateurs',
+        statusCode: 500,
+      });
+    }
   }
 
   async createUserWeb(userData: NewUserRequestDTO) {
@@ -62,7 +73,7 @@ export class UsersServiceImpl implements UsersService {
           rights: [RoleEnum.HUNT_MANAGER],
         };
       }
-      const newUser = await userRepository.createWithClient(client, userData);
+      const newUser = await userRepository.createWithClient(client, userToCreate);
       await client.query('COMMIT');
       return userMapper.toDTONewUser(newUser);
     } catch (error: any) {
@@ -97,7 +108,41 @@ export class UsersServiceImpl implements UsersService {
   }
 
   async getAllUsersByCulturalCenter(culturalcenter_id: string) {
-    const users = await userRepository.findAllByCulturalCenter(culturalcenter_id);
-    return users.map(userMapper.toLightDTO);
+    try {
+      const users = await userRepository.findAllByCulturalCenter(culturalcenter_id);
+      return users.map(userMapper.toLightDTO);
+    } catch (error: any) {
+      if (error instanceof AppError) {
+        throw error;
+      }
+      throw new AppError({
+        userMessage: 'Erreur lors de la récupération des utilisateurs du centre culturel',
+        statusCode: 500,
+      });
+    }
+
+  }
+
+  async switchUsersStatus(ids: SwitchStatusUsersRequestDTO): Promise<boolean> {
+    try {
+      const updatedUsers = await userRepository.switchUsersStatus(ids);
+
+      if (updatedUsers.length === 0) {
+        throw new AppError({
+          userMessage: "Aucun utilisateur trouvé pour les IDs fournis",
+          statusCode: 404,
+        });
+      }
+
+      return true;
+    } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      }
+      throw new AppError({
+        userMessage: "Erreur lors du changement de statut des utilisateurs",
+        statusCode: 500,
+      });
+    }
   }
 }
