@@ -16,7 +16,6 @@ export default function Home() {
     setSelectedHuntId
   } = useHomeData();
 
-  // 🔥 Reset signals
   const [resetHuntForm, setResetHuntForm] = useState(0);
   const [resetIndexForm, setResetIndexForm] = useState(0);
   const [resetStepForm, setResetStepForm] = useState(0);
