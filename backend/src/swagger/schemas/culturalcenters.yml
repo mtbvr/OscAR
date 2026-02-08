@@ -2,6 +2,14 @@ components:
 
   schemas:
 
+    CulturalCenterLightDTOWithoutActive:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+
     CulturalCenterLightDTO:
       type: object
       properties:
@@ -9,3 +17,5 @@ components:
           type: string
         name:
           type: string
+        isActive:
+          type: boolean

@@ -2,7 +2,7 @@ export interface CulturalCenterEntity {
   id: string;
   name: string;
   description: string;
-  isApprove: boolean;
+  isActive: boolean;
   address_id: string;
   picture_path?: string;
   created_at: Date;
