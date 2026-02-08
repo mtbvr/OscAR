@@ -7,6 +7,32 @@ const huntsRoutes = Router();
 
 const huntsController = new HuntsController();
 
+/**
+ * @swagger
+ * /hunt:
+ *   post:
+ *     summary: Créer une chasse
+ *     tags: [Hunt]
+ *     security:
+ *       - bearerAuth: []
+ *     description: >
+ *       Rôles autorisés : HUNT_MANAGER, CULTURAL_CENTER_MANAGER, ADMIN
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/HuntCreateRequestDTO"
+ *     responses:
+ *       201:
+ *         description: Chasse créée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/HuntCreateResponseDTO"
+ */
+
+
 huntsRoutes.post(
     "/hunt", 
     authMiddleware,
@@ -14,6 +40,26 @@ huntsRoutes.post(
     (req, res, next) => huntsController.createHunt(req, res, next)
 );
 
+/**
+ * @swagger
+ * /hunt:
+ *   get:
+ *     summary: Récupérer toutes les chasses
+ *     tags: [Hunt]
+ *     security:
+ *       - bearerAuth: []
+ *     description: >
+ *       Rôles autorisés : HUNT_MANAGER, CULTURAL_CENTER_MANAGER, ADMIN
+ *     responses:
+ *       200:
+ *         description: Liste des chasses
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/HuntLightDTO"
+ */
 huntsRoutes.get(
     "/hunt", 
     authMiddleware,

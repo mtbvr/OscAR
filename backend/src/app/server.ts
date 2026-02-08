@@ -15,6 +15,8 @@ import { runMigrations } from '../common-lib/config/runMigrations.js';
 import { RoleEnum } from '../common-lib/enum/roleEnum.js';
 import indexRoutes from '../routes/IndexRoutes.js';
 import culturalCenterRoutes from '../routes/CulturalCenterRoutes.js';
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "../swagger/swagger.js";
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -36,6 +38,13 @@ app.use('/api', culturalCenterRoutes)
 
 // Routes admin protégées par le middleware requireRole
 app.use('/api/admin', requireRole(RoleEnum.ADMIN), adminRoutes);
+
+// Swagger
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec)
+);
 
 // Routes non définies()
 app.use((req, res, next) => {

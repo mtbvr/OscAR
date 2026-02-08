@@ -7,6 +7,27 @@ const difficultyRoutes = Router();
 
 const difficultyController = new DifficultyController();
 
+/**
+ * @swagger
+ * /difficulty:
+ *   get:
+ *     summary: Récupérer tous les niveaux de difficulté
+ *     tags: [Difficulty]
+ *     security:
+ *       - bearerAuth: []
+ *     description: >
+ *       Rôles autorisés : HUNT_MANAGER, CULTURAL_CENTER_MANAGER, ADMIN
+ *     responses:
+ *       200:
+ *         description: Liste des niveaux de difficulté
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/DifficultyLightDTO"
+ */
+
 difficultyRoutes.get(
     "/difficulty", 
     authMiddleware,

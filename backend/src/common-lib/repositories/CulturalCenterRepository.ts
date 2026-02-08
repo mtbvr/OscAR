@@ -14,7 +14,7 @@ export class CulturalCenterRepository  {
     }
 
     async getAllActive(): Promise<CulturalCenterEntity[]> {
-        const result = await pool.query("SELECT * FROM cultural_center WHERE isActive = true");
+        const result = await pool.query('SELECT * FROM cultural_centers WHERE "isActive" = TRUE');
         return result.rows;
     }
 }

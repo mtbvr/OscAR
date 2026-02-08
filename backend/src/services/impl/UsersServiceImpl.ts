@@ -17,7 +17,7 @@ export class UsersServiceImpl implements UsersService {
 
   async getAllUsers() {
     const users = await userRepository.findAll();
-    return users.map(userMapper.toDTO);
+    return users.map(userMapper.toLightDTO);
   }
 
   async createUserWeb(userData: NewUserRequestDTO) {
@@ -84,5 +84,10 @@ export class UsersServiceImpl implements UsersService {
         statusCode: 500,
       });    
     }
+  }
+
+  async getAllUsersByCulturalCenter(culturalcenter_id: string) {
+    const users = await userRepository.findAllByCulturalCenter(culturalcenter_id);
+    return users.map(userMapper.toLightDTO);
   }
 }

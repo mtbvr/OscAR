@@ -7,6 +7,31 @@ const stepsRoutes = Router();
 
 const stepsController = new StepsController();
 
+/**
+ * @swagger
+ * /step:
+ *   post:
+ *     summary: Créer une étape pour une chasse
+ *     tags: [Step]
+ *     security:
+ *       - bearerAuth: []
+ *     description: >
+ *       Rôles autorisés : HUNT_MANAGER, CULTURAL_CENTER_MANAGER, ADMIN
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: "#/components/schemas/StepCreateRequestDTO"
+ *     responses:
+ *       201:
+ *         description: Étape créée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: "#/components/schemas/StepCreateResponseDTO"
+ */
+
 stepsRoutes.post(
     "/step", 
     authMiddleware, 
