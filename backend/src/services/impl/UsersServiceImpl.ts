@@ -24,6 +24,7 @@ export class UsersServiceImpl implements UsersService {
     const client = await pool.connect(); 
     try {
       await client.query('BEGIN');
+      let userToCreate = { ...userData };
       if (userData.isNewCulturalCenter) {
         if (!userData.newCulturalCenter) {
           throw new AppError({
@@ -35,13 +36,19 @@ export class UsersServiceImpl implements UsersService {
           client,
           userData.newCulturalCenter.address
         );
-        userData.newCulturalCenter.address_id = address.id;
+
         const culturalCenter = await culturalCenterRepository.createWithClient(
           client,
-          userData.newCulturalCenter
+          {
+            ...userData.newCulturalCenter,
+            address_id: address.id,
+          }
         );
-        userData.rights = [RoleEnum.CULTURAL_CENTER_MANAGER]
-        userData.id_cultural_center = culturalCenter.id;   
+        userToCreate = {
+          ...userToCreate,
+          rights: [RoleEnum.CULTURAL_CENTER_MANAGER],
+          id_cultural_center: culturalCenter.id,
+        }; 
       }
       if (!userData.isNewCulturalCenter) {
         if (!userData.id_cultural_center) {
@@ -50,7 +57,10 @@ export class UsersServiceImpl implements UsersService {
             statusCode: 400,
           });
         }
-        userData.rights = [RoleEnum.HUNT_MANAGER];
+        userToCreate = {
+          ...userToCreate,
+          rights: [RoleEnum.HUNT_MANAGER],
+        };
       }
       const newUser = await userRepository.createWithClient(client, userData);
       await client.query('COMMIT');
