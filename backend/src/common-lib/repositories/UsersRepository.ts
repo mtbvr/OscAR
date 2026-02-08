@@ -12,12 +12,31 @@ export class UserRepository  {
 
   async createWithClient(client: PoolClient, userData: NewUserRequestDTO): Promise<UserEntity> {
   const hashedPassword = await bcrypt.hash(userData.password, 10);
-    const result = await client.query(
-      "INSERT INTO users (email, username, password, id_cultural_center) VALUES ($1, $2, $3, $4) RETURNING id, username",
-      [userData.email, userData.username, hashedPassword, userData.id_cultural_center]
-    );
-    return result.rows[0];
-  }
+  const result = await client.query(
+    `INSERT INTO users (email, username, password, id_cultural_center)
+     VALUES ($1, $2, $3, $4)
+     RETURNING id, username`,
+    [userData.email, userData.username, hashedPassword, userData.id_cultural_center]
+  );
+  const user = result.rows[0];
+  const rightsResult = await client.query(
+    `SELECT id, name FROM rights WHERE name = ANY($1)`,
+    [userData.rights]
+  );
+  const rightIds = rightsResult.rows.map(r => r.id);
+  const insertValues = rightIds
+    .map((_, i) => `($1, $${i + 2})`)
+    .join(", ");
+
+  await client.query(
+    `INSERT INTO right_user (user_id, right_id) VALUES ${insertValues}`,
+    [user.id, ...rightIds]
+  );
+  return user;
+}
+
+
+  //TODO : Create User for mobile (without rights managements and cultural center affiliation)
 
   async findByCredentials(email: string): Promise<UserEntity | null> {
     const result = await pool.query(

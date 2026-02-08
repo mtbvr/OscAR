@@ -4,5 +4,6 @@ import { NewUserRequestDTO } from "../common-lib/dto/users/NewUserRequestDTO.js"
 
 export interface UsersService {
   getAllUsers(): Promise<LightUserDTO[]>;
-  createUser(userData: NewUserRequestDTO): Promise<NewUserResponseDTO>;
+  createUserWeb(userData: NewUserRequestDTO): Promise<NewUserResponseDTO>;
+  //TODO: createUserMobile without cultural center creation / cultural center affiliation and auto role USER
 }

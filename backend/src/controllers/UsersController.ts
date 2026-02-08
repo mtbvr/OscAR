@@ -23,7 +23,7 @@ export class UsersController  {
     try {
       console.log("Creating user");
       const userData = req.body;
-      const newUser = await this.usersService.createUser(userData);
+      const newUser = await this.usersService.createUserWeb(userData);
       res.status(201).json(newUser);
     } catch (err) {
       next(err);

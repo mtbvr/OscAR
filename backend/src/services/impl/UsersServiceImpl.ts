@@ -6,6 +6,7 @@ import AppError from "../../common-lib/errors/AppError.js";
 import { AddressRepository } from "../../common-lib/repositories/AddressRepository.js";
 import { CulturalCenterRepository } from "../../common-lib/repositories/CulturalCenterRepository.js";
 import { pool } from "../../common-lib/config/database.js";
+import { RoleEnum } from "../../common-lib/enum/roleEnum.js";
 
 const userRepository = new UserRepository();
 const culturalCenterRepository = new CulturalCenterRepository();
@@ -19,7 +20,7 @@ export class UsersServiceImpl implements UsersService {
     return users.map(userMapper.toDTO);
   }
 
-  async createUser(userData: NewUserRequestDTO) {
+  async createUserWeb(userData: NewUserRequestDTO) {
     const client = await pool.connect(); 
     try {
       await client.query('BEGIN');
@@ -39,6 +40,7 @@ export class UsersServiceImpl implements UsersService {
           client,
           userData.newCulturalCenter
         );
+        userData.rights = [RoleEnum.CULTURAL_CENTER_MANAGER]
         userData.id_cultural_center = culturalCenter.id;   
       }
       if (!userData.isNewCulturalCenter) {
@@ -48,7 +50,7 @@ export class UsersServiceImpl implements UsersService {
             statusCode: 400,
           });
         }
-
+        userData.rights = [RoleEnum.HUNT_MANAGER];
       }
       const newUser = await userRepository.createWithClient(client, userData);
       await client.query('COMMIT');

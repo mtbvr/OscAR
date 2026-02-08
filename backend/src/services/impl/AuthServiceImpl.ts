@@ -6,6 +6,7 @@ import { AuthResponseDTO } from "../../common-lib/dto/auth/AuthResponseDTO.js";
 import { generateToken } from "../../common-lib/security/auth.js";
 import bcrypt from "bcrypt";
 import AppError from "../../common-lib/errors/AppError.js";
+import { RoleEnum } from "../../common-lib/enum/roleEnum.js";
 
 
 const userRepository = new UserRepository();
@@ -29,6 +30,15 @@ export class AuthServiceImpl implements AuthService {
                 userMessage: 'Identifiants invalides',
                 statusCode: 401,
             });
+        }
+
+        if (!(user.rights.length === 1 && user.rights[0] === RoleEnum.USER)) {
+            if (!user.isActive) {
+                throw new AppError({
+                    userMessage: 'Compte inactif. Veuillez contacter un administrateur ou attendre l\'activation de votre compte.',
+                    statusCode: 403,
+                });
+            }
         }
 
         const isValid = await bcrypt.compare(userData.password, user.password);
